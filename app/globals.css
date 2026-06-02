@@ -2,16 +2,27 @@
 
 @import "tailwindcss";
 
-:root {
-  --background: #0a0a0f;
-  --background-2: #111118;
-  --background-3: #16161f;
-  --card: #1a1a25;
-  --accent: #e8472a;
-  --accent-2: #f0a500;
-  --foreground: #f0eee8;
-  --muted: #7a7888;
-  --border: #2a2a38;
+root {
+  /* Backgrounds */
+  --background: #02010f;
+  --background-2: #0e0a2b;
+  --background-3: #161131;
+
+  /* Surfaces */
+  --card: #0e0a2b;
+  --border: #22194a;
+
+  /* Brand */
+  --accent: #c13a82;
+  --accent-hover: #a92f71;
+
+  /* Secondary */
+  --accent-2: #8c63c9;
+  --accent-2-hover: #8c63c9;
+
+  /* Text */
+  --foreground: #d6d0dc;
+  --muted: #7b7497;
 }
 
 body {
