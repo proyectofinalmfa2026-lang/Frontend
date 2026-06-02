@@ -46,16 +46,16 @@ export default function RegisterPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold font-serif text-[#D6D0DC]">
-            Cine<span className="text-[#C13A82]">Track</span>
+            Cine<span className="text-[#C13A82]">Sphere</span>
           </h1>
 
-          <p className="text-[#7B7497] mt-2 text-sm">
+          <p className="text-[#7B7497] mt-2 text-sm animate-bounce">
             Creá tu cuenta y empezá a trackear
           </p>
         </div>
 
         {/* Card */}
-        <div className="bg-[#0E0A2B] border border-[#22194A] rounded-xl px-8 py-10 shadow-2xl">
+        <div className="bg-[#0E0A2B] border border-[#22194A] rounded-xl px-8 py-10 shadow-[0_0_100px_rgba(140,99,201,0.15)]">
           <h2 className="text-xl text-center font-semibold mb-6 text-[#D6D0DC]">
             Crear cuenta
           </h2>
