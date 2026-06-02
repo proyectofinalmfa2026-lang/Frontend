@@ -1,19 +1,21 @@
-import { DM_Sans } from "next/font/google";
 import "./globals.css";
-
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  weight: ["300", "400", "500"],
-});
+import Navbar from "@/components/layout/navbar";
+import Footer from "@/components/layout/footer";
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <html lang="es">
-      <body className={dmSans.className}>{children}</body>
+      <body>
+        <Navbar />
+
+        <main>{children}</main>
+
+        <Footer />
+      </body>
     </html>
   );
 }
