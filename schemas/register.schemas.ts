@@ -11,8 +11,11 @@ export const registerSchema = z
     email: z.string().email("Email inválido"),
     password: z
       .string()
-      .min(6, "Mínimo 6 caracteres")
-      .max(50, "Máximo 50 caracteres"),
+      .min(6, "Mínimo 8 caracteres")
+      .max(15, "Máximo 15 caracteres")
+      .regex(/[A-Z]/, "Debe contener una mayúscula")
+      .regex(/[0-9]/, "Debe contener un número"),
+
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {

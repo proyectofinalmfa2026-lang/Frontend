@@ -6,6 +6,8 @@ import {
   registerSchema,
   type RegisterSchema,
 } from "@/schemas/register.schemas";
+import UsernameRules from "@/components/auth/usernameRules";
+import PasswordRules from "@/components/auth/passwordRules";
 import { authServices } from "@/services/auth.services";
 import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
@@ -21,11 +23,13 @@ export default function RegisterPage() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
   });
-
+  const password = watch("password", "");
+  const username = watch("username", "");
   const onSubmit = async (data: RegisterSchema) => {
     try {
       setIsLoading(true);
@@ -100,6 +104,7 @@ export default function RegisterPage() {
 
               <input
                 {...register("username")}
+                maxLength={20}
                 placeholder="ej: cine_lover"
                 className="
                 bg-[#02010F]
@@ -114,7 +119,7 @@ export default function RegisterPage() {
                 transition-colors
               "
               />
-
+              <UsernameRules username={username} />
               {errors.username && (
                 <span className="text-[#C13A82] text-xs">
                   {errors.username.message}
@@ -158,7 +163,8 @@ export default function RegisterPage() {
               <input
                 {...register("password")}
                 type="password"
-                placeholder="Mínimo 6 caracteres"
+                maxLength={15}
+                placeholder="Mínimo 8 caracteres"
                 className="
                 bg-[#02010F]
                 border border-[#22194A]
@@ -172,6 +178,7 @@ export default function RegisterPage() {
                 transition-colors
               "
               />
+              <PasswordRules password={password} />
 
               {errors.password && (
                 <span className="text-[#C13A82] text-xs">
@@ -189,6 +196,7 @@ export default function RegisterPage() {
               <input
                 {...register("confirmPassword")}
                 type="password"
+                maxLength={15}
                 placeholder="Repetí tu contraseña"
                 className="
                 bg-[#02010F]
