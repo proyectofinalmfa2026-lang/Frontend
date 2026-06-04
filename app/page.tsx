@@ -1,3 +1,11 @@
+import { Hero } from "@/components/home/hero";
+import { TrendingMovies } from "@/components/home/trending";
+
 export default function HomePage() {
-  return <main></main>;
+  return (
+    <main>
+      <Hero />
+      <TrendingMovies />
+    </main>
+  );
 }
