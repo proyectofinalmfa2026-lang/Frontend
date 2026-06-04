@@ -1,5 +1,3 @@
-// components/home/trending.tsx
-// Local MovieCard fallback (file movieCard.tsx isn't a module in some setups)
 type Movie = {
   id: number;
   title: string;
