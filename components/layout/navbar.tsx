@@ -1,18 +1,21 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
+import MobileMenu from "./mobileMenu";
 
 export default function Navbar() {
-  const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const pathname = usePathname();
   const { user, logout } = useAuthStore();
 
   const links = [
     {
-      href: "/movieHero",
+      href: "/movies",
       label: "Películas",
     },
     {
@@ -24,7 +27,7 @@ export default function Navbar() {
       label: "Comunidad",
     },
     {
-      href: "/watchlistCard",
+      href: "/watchlist",
       label: "Mi Lista",
     },
   ];
@@ -58,7 +61,7 @@ export default function Navbar() {
           </nav>
         </div>
 
-        {/* SEARCH */}
+        {/* SEARCH DESKTOP */}
         <div className="hidden lg:flex flex-1 justify-center px-10">
           <input
             type="text"
@@ -84,8 +87,9 @@ export default function Navbar() {
 
         {/* RIGHT */}
         <div className="flex items-center gap-3">
-          {!user ? (
-            <>
+          {/* Desktop Auth */}
+          <div className="hidden md:flex items-center gap-3">
+            {!user ? (
               <Link
                 href="/Login"
                 className="
@@ -101,64 +105,128 @@ export default function Navbar() {
               >
                 Iniciar Sesión
               </Link>
-            </>
-          ) : (
-            <>
-              <Link
-                href="/profile"
-                className="
-                  flex
-                  items-center
-                  gap-3
-                  bg-[#0E0A2B]
-                  border
-                  border-[#22194A]
-                  rounded-xl
-                  px-3
-                  py-2
-                  hover:border-[#8C63C9]
-                  transition-colors
-                "
+            ) : (
+              <>
+                <Link
+                  href="/profile"
+                  className="
+                    flex
+                    items-center
+                    gap-3
+                    bg-[#0E0A2B]
+                    border
+                    border-[#22194A]
+                    rounded-xl
+                    px-3
+                    py-2
+                    hover:border-[#8C63C9]
+                    transition-colors
+                  "
+                >
+                  <Image
+                    src="/default-avatar.png"
+                    alt="Avatar"
+                    width={38}
+                    height={38}
+                    className="rounded-full"
+                  />
+
+                  <div className="flex flex-col">
+                    <span className="text-[#D6D0DC] text-sm font-medium">
+                      {user.name}
+                    </span>
+
+                    <span className="text-[#7B7497] text-xs">Ver perfil</span>
+                  </div>
+                </Link>
+
+                <button
+                  onClick={logout}
+                  className="
+                    border
+                    border-[#C13A82]
+                    text-[#C13A82]
+                    hover:bg-[#C13A82]
+                    hover:text-white
+                    px-4
+                    py-2
+                    rounded-lg
+                    transition-colors
+                    font-medium
+                    cursor-pointer
+                  "
+                >
+                  Salir
+                </button>
+              </>
+            )}
+          </div>
+
+          {/* HAMBURGER MOBILE */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="md:hidden text-[#D6D0DC]"
+          >
+            {isMenuOpen ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
               >
-                <Image
-                  src="/default-avatar.png"
-                  alt="Avatar"
-                  width={38}
-                  height={38}
-                  className="rounded-full"
-                />
-
-                <div className="hidden md:flex flex-col">
-                  <span className="text-[#D6D0DC] text-sm font-medium">
-                    {user.name}
-                  </span>
-
-                  <span className="text-[#7B7497] text-xs">Ver perfil</span>
-                </div>
-              </Link>
-
-              <button
-                onClick={logout}
-                className="
-                  border
-                  border-[#C13A82]
-                  text-[#C13A82]
-                  hover:bg-[#C13A82]
-                  hover:text-white
-                  px-4
-                  py-2
-                  rounded-lg
-                  transition-colors
-                  font-medium
-                  cursor-pointer
-                "
+                <path d="M18 6L6 18" />
+                <path d="M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
               >
-                Salir
-              </button>
-            </>
-          )}
+                <path d="M4 6h16" />
+                <path d="M4 12h16" />
+                <path d="M4 18h16" />
+              </svg>
+            )}
+          </button>
         </div>
       </div>
+
+      {/* SEARCH MOBILE */}
+      <div className="lg:hidden px-4 pb-4">
+        <input
+          type="text"
+          placeholder="Buscar películas, usuarios..."
+          className="
+            w-full
+            bg-[#0E0A2B]
+            border
+            border-[#22194A]
+            rounded-xl
+            px-4
+            py-2
+            text-sm
+            text-[#D6D0DC]
+            placeholder:text-[#7B7497]
+            focus:outline-none
+            focus:border-[#8C63C9]
+          "
+        />
+      </div>
+
+      <MobileMenu
+        isOpen={isMenuOpen}
+        links={links}
+        user={user}
+        logout={logout}
+      />
     </header>
   );
 }
