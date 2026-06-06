@@ -15,7 +15,7 @@ export default function Movies() {
             Descubre algunas de las películas mejor valoradas por la comunidad.
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-10 cursor-pointer">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-3 cursor-pointer">
           {[1, 2, 3, 4, 5, 6, 7, 8].map((movie) => (
             <div
               key={movie}
@@ -84,7 +84,7 @@ export default function Movies() {
                 </p>
 
                 <Link
-                  href="/movies[id]"
+                  href="Login"
                   className="
               w-full
               mt-4
