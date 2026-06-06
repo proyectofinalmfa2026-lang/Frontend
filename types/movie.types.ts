@@ -3,4 +3,8 @@ export interface Movie {
   title: string;
   posterPath: string;
   rating: number;
+
+  description?: string;
+  genres?: string[];
+  releaseDate?: string;
 }
