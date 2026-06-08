@@ -1,6 +1,5 @@
+// components/ui/MovieStrip.tsx
 "use client";
-// components/home/movieStrip.tsx
-// Recibe un array de películas y los anima hacia arriba o abajo infinitamente.
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
@@ -40,7 +39,7 @@ export const MovieStrip = ({
         <motion.div
           key={`${movie.id}-${idx}`}
           className="relative group cursor-pointer"
-          whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+          whileHover={{ scale: 1.05 }}
         >
           <div className="w-32 h-48 sm:w-40 sm:h-56 md:w-44 md:h-64 lg:w-48 lg:h-72 rounded-lg overflow-hidden bg-linear-to-b from-[#161131] to-[#0e0a2b] border border-[#22194a] group-hover:border-[#c13a82] transition-all duration-300">
             <div className="w-full h-full flex flex-col items-center justify-center p-2 sm:p-4 text-center bg-[#0e0a2b]">
