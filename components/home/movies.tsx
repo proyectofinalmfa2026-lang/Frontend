@@ -105,7 +105,7 @@ export default function Movies() {
         </div>
         <div className="flex justify-center mt-12 cursor-pointer">
           <Link
-            href="/movie"
+            href="/movies"
             className="
         px-8
         py-3

@@ -99,7 +99,7 @@ export const Hero = () => {
               transition={{ duration: 0.4, delay: 0.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
             >
-              <Link href="/register">
+              <Link href="/Register">
                 <Button className="bg-linear-to-r from-[#c13a82] to-[#8c63c9] text-white font-semibold px-8 py-6 rounded-full">
                   Comenzar ahora
                   <span className="ml-2">→</span>

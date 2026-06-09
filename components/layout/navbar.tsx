@@ -19,10 +19,6 @@ export default function Navbar() {
       label: "Películas",
     },
     {
-      href: "/series",
-      label: "Series",
-    },
-    {
       href: "/community",
       label: "Comunidad",
     },
@@ -108,7 +104,7 @@ export default function Navbar() {
             ) : (
               <>
                 <Link
-                  href="/profile"
+                  href={`/profile/${user.username}`}
                   className="
                     flex
                     items-center

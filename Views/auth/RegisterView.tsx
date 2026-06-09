@@ -13,10 +13,10 @@ import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useState } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 
 export default function RegisterPage() {
-  const { setAuth } = useAuthStore();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -28,6 +28,13 @@ export default function RegisterPage() {
   } = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
   });
+  const { user, setAuth } = useAuthStore();
+
+  useEffect(() => {
+    if (user) {
+      router.replace("/");
+    }
+  }, [user, router]);
   const password = watch("password", "");
   const username = watch("username", "");
   const onSubmit = async (data: RegisterSchema) => {

@@ -1,5 +1,12 @@
-import WatchlistPage from "@/Views/watchlist/watchlistView";
-
+import { useAuthStore } from "@/store/authStore";
+import WatchlistGuest from "@/Views/watchlist/watchlistGuest";
+/* import WatchlistPage from "@/Views/watchlist/watchlistGuest"; */
 export default function wachtlistPage() {
-  return <WatchlistPage />;
+  /*   const { user } = useAuthStore(); */
+
+  /* if (!user) { */
+  return <WatchlistGuest />;
 }
+
+/* return <WatchlistView />;
+} */

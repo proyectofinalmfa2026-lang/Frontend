@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginSchema } from "@/schemas/login.schemas";
 import { authServices } from "@/services/auth.services";
 import { useAuthStore } from "@/store/authStore";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useState } from "react";
@@ -29,16 +30,20 @@ export default function LoginPage() {
     window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/google`;
   };
 
+  const { user } = useAuthStore();
+
+  useEffect(() => {
+    if (user) {
+      router.replace("/");
+    }
+  }, [user, router]);
+
   const onSubmit = async (data: LoginSchema) => {
     try {
       setIsLoading(true);
-
       const res = await authServices.login(data);
-
       setAuth(res.data.user, res.data.token);
-
       toast.success("¡Bienvenido de vuelta!");
-
       router.push("/");
     } catch (error: any) {
       toast.error(
@@ -51,11 +56,8 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-[#02010F] flex items-center justify-center px-5 py-10">
-      {" "}
       <div className="w-full max-w-md">
-        {/* Logo */}{" "}
         <div className="text-center mb-8">
-          {" "}
           <h1 className="text-3xl font-bold font-serif text-[#D6D0DC]">
             Cine<span className="text-[#C13A82]">Sphere</span>{" "}
           </h1>
