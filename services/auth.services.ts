@@ -2,10 +2,15 @@ import api from "../lib/axios";
 
 export const authServices = {
   login: (data: { email: string; password: string }) =>
-    api.post("/auth/login", data),
+    api.post("/auth/signin", data),
 
-  register: (data: { name: string; email: string; password: string }) =>
-    api.post("/auth/register", data),
+  register: (data: {
+    name: string;
+    username: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+  }) => api.post("/auth/signup", data),
 
   me: () =>
     api.get("/auth/me") /* Devuelve los datos del usuario autenticado */,
