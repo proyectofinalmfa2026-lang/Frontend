@@ -13,7 +13,7 @@ export const authServices = {
   }) => api.post("/auth/signup", data),
 
   me: () =>
-    api.get("/auth/me") /* Devuelve los datos del usuario autenticado */,
+    api.get("/auth/profile") /* Devuelve los datos del usuario autenticado */,
 
   logout: () =>
     api.post(

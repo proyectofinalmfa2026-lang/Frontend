@@ -17,6 +17,7 @@ interface AuthStore {
   isAuthenticated: boolean;
   setAuth: (user: User, token: string) => void;
   logout: () => void;
+  setUser: (user: User) => void;
 }
 
 export const useAuthStore = create<AuthStore>()(
@@ -35,6 +36,11 @@ export const useAuthStore = create<AuthStore>()(
         Cookies.remove("ct_token");
         set({ user: null, token: null, isAuthenticated: false });
       },
+      setUser: (user) =>
+        set({
+          user,
+          isAuthenticated: true,
+        }),
     }),
     { name: "ct_auth" },
   ),
