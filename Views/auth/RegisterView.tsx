@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { useEffect } from "react";
 import Link from "next/link";
+import { showRegisterToast } from "@/lib/authToasts";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -42,7 +43,7 @@ export default function RegisterPage() {
       setIsLoading(true);
       const res = await authServices.register(data);
       setAuth(res.data.user, res.data.token);
-      toast.success("¡Cuenta creada exitosamente!");
+      showRegisterToast();
       router.push("/");
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Error al registrarse");

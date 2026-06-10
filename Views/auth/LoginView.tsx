@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useState } from "react";
 import Link from "next/link";
+import { showLoginToast } from "@/lib/authToasts";
 
 export default function LoginPage() {
   const { setAuth } = useAuthStore();
@@ -29,7 +30,6 @@ export default function LoginPage() {
     // Aquí podrías redirigir a tu backend para iniciar el flujo de autenticación de Google
     window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/google`;
   };
-
   const { user } = useAuthStore();
 
   useEffect(() => {
@@ -43,7 +43,7 @@ export default function LoginPage() {
       setIsLoading(true);
       const res = await authServices.login(data);
       setAuth(res.data.user, res.data.token);
-      toast.success("¡Bienvenido de vuelta!");
+      showLoginToast();
       router.push("/");
     } catch (error: any) {
       toast.error(

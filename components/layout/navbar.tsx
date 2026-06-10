@@ -6,6 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import MobileMenu from "./mobileMenu";
+import { showLogoutToast } from "@/lib/authToasts";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -135,9 +136,11 @@ export default function Navbar() {
                     <span className="text-[#7B7497] text-xs">Ver perfil</span>
                   </div>
                 </Link>
-
                 <button
-                  onClick={logout}
+                  onClick={() => {
+                    logout();
+                    showLogoutToast();
+                  }}
                   className="
                     border
                     border-[#C13A82]
