@@ -14,28 +14,46 @@ function AuthSuccessContent() {
   const { setAuth } = useAuthStore();
 
   useEffect(() => {
+    console.log("AUTH SUCCESS PAGE LOADED");
+
     const token = searchParams.get("token");
 
+    console.log("TOKEN FROM URL:", token);
+
     if (!token) {
+      console.log("NO TOKEN FOUND -> REDIRECT LOGIN");
+
       router.replace("/Login");
       return;
     }
 
     const authenticateUser = async () => {
       try {
+        console.log("SAVING TOKEN IN COOKIE");
+
         Cookies.set("ct_token", token, {
           expires: 7,
         });
 
+        console.log("CALLING /auth/profile");
+
         const response = await authServices.me();
+
+        console.log("PROFILE RESPONSE:", response.data);
+
+        console.log("SETTING AUTH STORE");
 
         setAuth(response.data, token);
 
+        console.log("REDIRECTING HOME");
+
         router.replace("/");
       } catch (error) {
-        console.error("Google login error:", error);
+        console.error("GOOGLE LOGIN ERROR:", error);
 
         Cookies.remove("ct_token");
+
+        console.log("COOKIE REMOVED");
 
         router.replace("/Login");
       }

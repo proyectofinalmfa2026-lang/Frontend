@@ -28,7 +28,7 @@ to-[#0e0a2b]  flex flex-col items-center justify-center px-4 text-center"
             Volver al inicio
           </Link>
           <Link
-            href="movieCard"
+            href="Movies  "
             className="bg-white border border-[#E8E8ED] hover:border-[#8c63c9] hover:text-[#8c63c9] transition-colors text-[#1D1D1F] px-6 py-3 rounded-lg text-sm font-medium"
           >
             Ver Todas las Peliculas
