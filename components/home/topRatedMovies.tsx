@@ -12,113 +12,129 @@ interface TopMovie {
   posterPath: string | null;
 }
 
-// ─── Fallback ─────────────────────────────────────────────────────────────────
 // TODO: reemplazar con llamada al backend cuando esté listo
 // movieService.getTopRated().then(...)
 
 const TOP_MOVIES: TopMovie[] = [
   {
-    id: 238,
-    title: "The Godfather",
-    year: 1972,
-    duration: "2h 55m",
-    score: 99,
-    votes: "48k",
-    description:
-      "El patriarca envejecido de una dinastía del crimen organizado transfiere el control de su imperio clandestino a su hijo a regañadientes.",
-    posterPath: null,
-  },
-  {
-    id: 496243,
-    title: "Parasite",
-    year: 2019,
-    duration: "2h 12m",
-    score: 97,
-    votes: "62k",
-    description:
-      "La codicia y la discriminación de clase amenazan la relación simbiótica entre la adinerada familia Park y la empobrecida familia Kim.",
-    posterPath: null,
-  },
-  {
-    id: 424,
-    title: "Schindler's List",
-    year: 1993,
-    duration: "3h 15m",
-    score: 97,
-    votes: "55k",
-    description:
-      "Un empresario alemán salva a más de mil refugiados judíos polacos del Holocausto al emplearlos en sus fábricas durante la Segunda Guerra Mundial.",
-    posterPath: null,
-  },
-  {
-    id: 155,
-    title: "The Dark Knight",
-    year: 2008,
-    duration: "2h 32m",
-    score: 98,
-    votes: "71k",
-    description: "",
-    posterPath: null,
-  },
-  {
-    id: 389,
-    title: "12 Angry Men",
-    year: 1957,
-    duration: "1h 36m",
-    score: 96,
-    votes: "29k",
-    description: "",
-    posterPath: null,
-  },
-  {
-    id: 769,
-    title: "Goodfellas",
-    year: 1990,
-    duration: "2h 26m",
-    score: 96,
-    votes: "33k",
-    description: "",
-    posterPath: null,
-  },
-  {
-    id: 680,
-    title: "Pulp Fiction",
-    year: 1994,
-    duration: "2h 34m",
-    score: 95,
-    votes: "44k",
-    description: "",
-    posterPath: null,
-  },
-  {
-    id: 27205,
+    id: 1,
     title: "Inception",
     year: 2010,
-    duration: "2h 28m",
-    score: 94,
-    votes: "52k",
-    description: "",
-    posterPath: null,
+    duration: "2h 28min",
+    score: 8.8,
+    votes: "2.4M",
+    description:
+      "Un ladrón que roba secretos corporativos a través del uso de la tecnología de compartir sueños recibe la tarea inversa de plantar una idea en la mente de un CEO.",
+    posterPath:
+      "https://image.tmdb.org/t/p/w500/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg",
   },
   {
-    id: 550,
-    title: "Fight Club",
-    year: 1999,
-    duration: "2h 19m",
-    score: 93,
-    votes: "41k",
-    description: "",
-    posterPath: null,
+    id: 2,
+    title: "The Godfather",
+    year: 1972,
+    duration: "2h 55min",
+    score: 9.2,
+    votes: "1.9M",
+    description:
+      "El envejecido patriarca de una dinastía del crimen organizado transfiere el control de su imperio clandestino a su reluctante hijo.",
+    posterPath:
+      "https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsLeBHka4eeFh.jpg",
   },
   {
-    id: 157336,
+    id: 3,
     title: "Interstellar",
     year: 2014,
-    duration: "2h 49m",
-    score: 91,
-    votes: "58k",
-    description: "",
-    posterPath: null,
+    duration: "2h 49min",
+    score: 8.6,
+    votes: "2.1M",
+    description:
+      "Un equipo de exploradores viaja a través de un agujero de gusano en el espacio en un intento de garantizar la supervivencia de la humanidad.",
+    posterPath:
+      "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
+  },
+  {
+    id: 4,
+    title: "The Dark Knight",
+    year: 2008,
+    duration: "2h 32min",
+    score: 9.0,
+    votes: "2.8M",
+    description:
+      "Batman enfrenta al Joker, un criminal que busca sumir Gotham en el caos absoluto.",
+    posterPath:
+      "https://m.media-amazon.com/images/M/MV5BOGI5OGIwOGUtMzM4MC00MTZkLWI0MWMtZDkzNzE2ZjYxYWZlXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+  },
+  {
+    id: 5,
+    title: "Pulp Fiction",
+    year: 1994,
+    duration: "2h 34min",
+    score: 8.9,
+    votes: "2.1M",
+    description:
+      "Las historias de dos sicarios, un boxeador y una pareja de ladrones se entrelazan en el Los Ángeles criminal.",
+    posterPath:
+      "https://image.tmdb.org/t/p/w500/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg",
+  },
+  {
+    id: 6,
+    title: "Schindler's List",
+    year: 1993,
+    duration: "3h 15min",
+    score: 9.0,
+    votes: "1.4M",
+    description:
+      "Un empresario alemán salva la vida de más de mil judíos polacos durante el Holocausto.",
+    posterPath:
+      "https://image.tmdb.org/t/p/w500/sF1U4EUQS8YHUYjNl3pMGNIQyr0.jpg",
+  },
+  {
+    id: 7,
+    title: "The Lord of the Rings: The Return of the King",
+    year: 2003,
+    duration: "3h 21min",
+    score: 9.0,
+    votes: "1.8M",
+    description:
+      "Gandalf y Aragorn lideran al mundo de los hombres contra el ejército de Sauron.",
+    posterPath:
+      "https://image.tmdb.org/t/p/w500/rCzpDGLbOoPwLjy3OAm5NUPOTrC.jpg",
+  },
+  {
+    id: 8,
+    title: "Fight Club",
+    year: 1999,
+    duration: "2h 19min",
+    score: 8.8,
+    votes: "2.1M",
+    description:
+      "Un oficinista insomne y un fabricante de jabón forman un club de lucha clandestino.",
+    posterPath:
+      "https://image.tmdb.org/t/p/w500/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg",
+  },
+  {
+    id: 9,
+    title: "Forrest Gump",
+    year: 1994,
+    duration: "2h 22min",
+    score: 8.8,
+    votes: "2.1M",
+    description:
+      "La vida del ingenuo Forrest Gump transcurre entre los eventos más importantes de la historia americana del siglo XX.",
+    posterPath:
+      "https://image.tmdb.org/t/p/w500/arw2vcBveWOVZr6pxd9XTd1TdQa.jpg",
+  },
+  {
+    id: 10,
+    title: "The Matrix",
+    year: 1999,
+    duration: "2h 16min",
+    score: 8.7,
+    votes: "1.9M",
+    description:
+      "Un hacker descubre que la realidad tal como la conoce es una simulación creada por máquinas.",
+    posterPath:
+      "https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg",
   },
 ];
 
@@ -163,21 +179,24 @@ function PosterPlaceholder() {
 function TopCard({ movie, rank }: { movie: TopMovie; rank: number }) {
   return (
     <Link href={`/movies/${movie.id}`}>
-      <div className="bg-[#0E0A2B] border border-[#22194A] rounded-xl overflow-hidden hover:border-[#3D3460] transition-colors h-full flex flex-col cursor-pointer">
-        <div className="relative h-30 sm:h-35 shrink-0">
+      <div className="bg-[#0E0A2B] border border-[#22194A] rounded-xl overflow-hidden hover:border-[#3D3460] transition-colors h-full flex flex-row cursor-pointer">
+        {/* Imagen izquierda */}
+        <div className="relative w- sm:w-32 shrink-0">
           <RankBadge rank={rank} />
           {movie.posterPath ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={movie.posterPath}
               alt={movie.title}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover object-top"
             />
           ) : (
             <PosterPlaceholder />
           )}
         </div>
-        <div className="p-2.5 sm:p-3 flex flex-col gap-1 sm:gap-1.5 flex-1">
+
+        {/* Info derecha */}
+        <div className="p-2.5 sm:p-3 flex flex-col gap-1 sm:gap-1.5 flex-1 justify-center">
           <p className="text-xs sm:text-sm font-medium text-[#D6D0DC] truncate">
             {movie.title}
           </p>
@@ -206,14 +225,15 @@ function PosterCard({ movie, rank }: { movie: TopMovie; rank: number }) {
   return (
     <Link href={`/movies/${movie.id}`}>
       <div className="cursor-pointer group">
-        <div className="relative rounded-lg overflow-hidden border border-[#22194A] group-hover:border-[#3D3460] transition-color sh-30 sm:h-35">
+        <div className="relative rounded-lg overflow-hidden border border-[#22194A] group-hover:border-[#3D3460] transition-colors aspect-2/3 w-full">
+          {" "}
           <RankBadge rank={rank} />
           {movie.posterPath ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={movie.posterPath}
               alt={movie.title}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-bottom object-cover"
             />
           ) : (
             <PosterPlaceholder />
@@ -238,7 +258,7 @@ function MobileRow({ movie, rank }: { movie: TopMovie; rank: number }) {
         <span className="text-xs font-medium text-[#7B7497] w-6 shrink-0">
           #{rank}
         </span>
-        <div className="relative w-9 h-12 -shrink-0 rounded overflow-hidden border border-[#22194A]">
+        <div className="relative w-10 h-14 shrink-0 rounded overflow-hidden border border-[#22194A]">
           {movie.posterPath ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img

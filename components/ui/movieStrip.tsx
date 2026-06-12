@@ -1,4 +1,3 @@
-// components/ui/MovieStrip.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -41,17 +40,21 @@ export const MovieStrip = ({
           className="relative group cursor-pointer"
           whileHover={{ scale: 1.05 }}
         >
-          <div className="w-32 h-48 sm:w-40 sm:h-56 md:w-44 md:h-64 lg:w-48 lg:h-72 rounded-lg overflow-hidden bg-linear-to-b from-[#161131] to-[#0e0a2b] border border-[#22194a] group-hover:border-[#c13a82] transition-all duration-300">
-            <div className="w-full h-full flex flex-col items-center justify-center p-2 sm:p-4 text-center bg-[#0e0a2b]">
-              <div className="text-2xl sm:text-3xl md:text-4xl mb-1 sm:mb-2">
-                🎬
-              </div>
-              <p className="text-xs sm:text-sm font-medium text-[#d6d0dc] line-clamp-2">
+          <div className="w-32 h-48 sm:w-40 sm:h-56 md:w-44 md:h-64 lg:w-48 lg:h-72 rounded-lg overflow-hidden border border-[#22194a] group-hover:border-[#c13a82] transition-all duration-300 relative">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={movie.posterPath}
+              alt={movie.title}
+              className="absolute inset-0 w-full h-full object-cover object-center"
+            />
+            {/* Overlay hover */}
+            <div className="absolute inset-0 bg-[#02010f]/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-end p-3">
+              <p className="text-xs font-medium text-[#d6d0dc] line-clamp-2 text-center">
                 {movie.title}
               </p>
-              <div className="mt-1 sm:mt-2 flex items-center gap-1">
-                <span className="text-[#c13a82] text-xs sm:text-sm">★</span>
-                <span className="text-[10px] sm:text-xs text-[#7b7497]">
+              <div className="mt-1 flex items-center gap-1">
+                <span className="text-[#c13a82] text-xs">★</span>
+                <span className="text-[10px] text-[#7b7497]">
                   {movie.rating}
                 </span>
               </div>
