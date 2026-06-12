@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Cookies from "js-cookie";
 
 import { authServices } from "@/services/auth.services";
 import { useAuthStore } from "@/store/authStore";
 
-export default function AuthSuccessPage() {
+function AuthSuccessContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -56,5 +56,19 @@ export default function AuthSuccessPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function AuthSuccessPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#02010F] flex items-center justify-center">
+          <p className="text-[#7B7497]">Cargando...</p>
+        </div>
+      }
+    >
+      <AuthSuccessContent />
+    </Suspense>
   );
 }
