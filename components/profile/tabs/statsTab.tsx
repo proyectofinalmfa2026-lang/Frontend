@@ -15,35 +15,6 @@ interface UserStatsDetail {
   topGenres: { genre: string; count: number }[];
 }
 
-// ─── Mock ─────────────────────────────────────────────────────────────────────
-// TODO: reemplazar con statsService.getByUser(userId)
-// CÓMO CONECTAR:
-//   1. import { statsService } from "@/services/stats.service" (pendiente de crear)
-//   2. Descomentar el fetch en useStats
-//   3. Borrar MOCK_STATS
-
-const MOCK_STATS: UserStatsDetail = {
-  totalMovies: 248,
-  totalReviews: 84,
-  avgScore: 8.1,
-  favoriteGenre: "Drama",
-  moviesThisMonth: 12,
-  scoreDistribution: [
-    { label: "10", count: 8 },
-    { label: "9", count: 22 },
-    { label: "8", count: 31 },
-    { label: "7", count: 14 },
-    { label: "≤6", count: 9 },
-  ],
-  topGenres: [
-    { genre: "Drama", count: 89 },
-    { genre: "Sci-Fi", count: 54 },
-    { genre: "Thriller", count: 43 },
-    { genre: "Noir", count: 28 },
-    { genre: "Acción", count: 34 },
-  ],
-};
-
 // ─── Hook ─────────────────────────────────────────────────────────────────────
 
 function useStats(userId: number) {
@@ -51,18 +22,9 @@ function useStats(userId: number) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // import { statsService } from "@/services/stats.service";
-    //
-    // statsService
-    //   .getByUser(userId)
-    //   .then((data) => setStats(data))
-    //   .finally(() => setLoading(false));
-
-    // Mock temporal
-    setStats(MOCK_STATS);
+    setStats(null);
     setLoading(false);
   }, [userId]);
-
   return { stats, loading };
 }
 

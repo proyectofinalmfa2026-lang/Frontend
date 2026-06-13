@@ -1,8 +1,5 @@
-export default function Page() {
-  return (
-    <div className="p-6">
-      <h1>En construcción</h1>
-      <p>Esta sección estará disponible próximamente.</p>
-    </div>
-  );
+import ProfileView from "@/Views/profile/profileView";
+
+export default function UserProfilePage() {
+  return <ProfileView />;
 }

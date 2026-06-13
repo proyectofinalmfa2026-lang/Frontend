@@ -1,8 +1,7 @@
 "use client";
-// components/profile/tabs/watchlistTab.tsx
 
 import { useState, useEffect } from "react";
-
+import EmptyState from "@/components/common/emptyState";
 // ─── Type ─────────────────────────────────────────────────────────────────────
 
 interface WatchlistItem {
@@ -13,58 +12,6 @@ interface WatchlistItem {
   addedAt: string;
 }
 
-// ─── Mock ─────────────────────────────────────────────────────────────────────
-// TODO: reemplazar con watchlistService.getByUser(userId)
-// CÓMO CONECTAR:
-//   1. import { watchlistService } from "@/services/watchlist.service" (pendiente de crear)
-//   2. Descomentar el fetch en useWatchlist
-//   3. Borrar MOCK_WATCHLIST
-
-const MOCK_WATCHLIST: WatchlistItem[] = [
-  {
-    id: 1,
-    movieTitle: "Dune: Part Two",
-    movieYear: 2024,
-    posterUrl: null,
-    addedAt: "2024-05-12",
-  },
-  {
-    id: 2,
-    movieTitle: "Oppenheimer",
-    movieYear: 2023,
-    posterUrl: null,
-    addedAt: "2024-05-08",
-  },
-  {
-    id: 3,
-    movieTitle: "Poor Things",
-    movieYear: 2023,
-    posterUrl: null,
-    addedAt: "2024-05-01",
-  },
-  {
-    id: 4,
-    movieTitle: "Past Lives",
-    movieYear: 2023,
-    posterUrl: null,
-    addedAt: "2024-04-22",
-  },
-  {
-    id: 5,
-    movieTitle: "The Zone of Interest",
-    movieYear: 2023,
-    posterUrl: null,
-    addedAt: "2024-04-15",
-  },
-  {
-    id: 6,
-    movieTitle: "Anatomy of a Fall",
-    movieYear: 2023,
-    posterUrl: null,
-    addedAt: "2024-04-10",
-  },
-];
-
 // ─── Hook ─────────────────────────────────────────────────────────────────────
 
 function useWatchlist(userId: number) {
@@ -72,18 +19,9 @@ function useWatchlist(userId: number) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // import { watchlistService } from "@/services/watchlist.service";
-    //
-    // watchlistService
-    //   .getByUser(userId)
-    //   .then((data) => setItems(data))
-    //   .finally(() => setLoading(false));
-
-    // Mock temporal
-    setItems(MOCK_WATCHLIST);
+    setItems([]);
     setLoading(false);
   }, [userId]);
-
   return { items, loading };
 }
 
@@ -143,12 +81,7 @@ export default function WatchlistTab({ userId }: WatchlistTabProps) {
   if (loading) return <p className="text-xs text-[#7B7497] p-4">Cargando...</p>;
 
   if (items.length === 0)
-    return (
-      <div className="bg-[#0E0A2B] border border-[#22194A] rounded-xl p-10 flex flex-col items-center gap-3 text-center">
-        <span className="text-3xl">🎬</span>
-        <p className="text-sm text-[#7B7497]">Tu watchlist está vacía.</p>
-      </div>
-    );
+    return <EmptyState message="Tu watchlist está vacía." />;
 
   return (
     <div className="flex flex-col gap-2">

@@ -81,7 +81,7 @@ function Avatar({
   user: ProfileUser;
   isOwnProfile: boolean;
 }) {
-  const initial = user.name.charAt(0).toUpperCase();
+  const initial = user?.name?.charAt(0)?.toUpperCase() ?? "?";
 
   return (
     <div className="relative w-18 h-18 shrink-0">
