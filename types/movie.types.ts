@@ -1,10 +1,18 @@
 export interface Movie {
-  id: number;
+  id: string;
   title: string;
-  posterPath: string;
+  description: string;
+  genre: string;
+  year: number;
+  poster: string | null;
+  rating?: number; // calculado desde reviews
+  reviews?: MovieReview[];
+  createdAt?: string;
+  updatedAt?: string;
+}
+export interface MovieReview {
+  id: number;
   rating: number;
-
-  description?: string;
-  genres?: string[];
-  releaseDate?: string;
+  content: string;
+  createdAt: string;
 }

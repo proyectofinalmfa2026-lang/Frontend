@@ -1,7 +1,14 @@
 import api from "@/lib/axios";
+import { Movie } from "@/types/movie.types";
 
-export async function getMovies() {
-  const response = await api.get("/movies");
+export const movieService = {
+  getAll: async (): Promise<Movie[]> => {
+    const res = await api.get("/movies");
+    return res.data;
+  },
 
-  return response.data;
-}
+  getById: async (id: string): Promise<Movie> => {
+    const res = await api.get(`/movies/${id}`);
+    return res.data;
+  },
+};
