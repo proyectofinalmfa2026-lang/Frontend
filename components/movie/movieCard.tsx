@@ -6,6 +6,15 @@ interface MovieCardProps {
 }
 
 export default function MovieCard({ movie }: MovieCardProps) {
+  const reviews = movie.reviews ?? [];
+  const rating =
+    reviews.length > 0
+      ? (
+          reviews.reduce((sum, review) => sum + review.rating, 0) /
+          reviews.length
+        ).toFixed(1)
+      : "Sin rating";
+
   return (
     <div className="bg-[#0E0A2B] border border-[#22194A] rounded-2xl overflow-hidden hover:border-[#8C63C9] hover:-translate-y-2 transition-all">
       <div className="h-72 bg-[#161131] flex items-center justify-center">
@@ -28,6 +37,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
             strokeLinecap="round"
             strokeLinejoin="round"
             className="text-[#3D3460]"
+            aria-hidden="true"
           >
             <path d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1z" />
           </svg>
@@ -37,14 +47,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
       <div className="p-4">
         <div className="flex items-center gap-2 mb-2">
           <span className="text-yellow-400">★</span>
-          <span className="text-[#D6D0DC] text-sm">
-            {movie.reviews && movie.reviews.length > 0
-              ? (
-                  movie.reviews.reduce((s, r) => s + r.rating, 0) /
-                  movie.reviews.length
-                ).toFixed(1)
-              : "Sin rating"}
-          </span>
+          <span className="text-[#D6D0DC] text-sm">{rating}</span>
           <span className="text-[#7B7497] text-xs ml-auto">{movie.year}</span>
         </div>
 
@@ -57,7 +60,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
           href={`/movies/${movie.id}`}
           className="mt-4 w-full block text-center bg-[#C13A82] hover:bg-[#A92F71] text-white py-2.5 rounded-lg transition-colors"
         >
-          Ver más
+          Ver mas
         </Link>
       </div>
     </div>

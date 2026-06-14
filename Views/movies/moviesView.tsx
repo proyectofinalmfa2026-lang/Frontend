@@ -16,13 +16,14 @@ export default function MoviesView() {
       .includes(search.toLowerCase());
     const matchesGenre =
       selectedGenre === "Todos" || movie.genre === selectedGenre;
+
     return matchesSearch && matchesGenre;
   });
 
   if (loading) {
     return (
       <section className="bg-[#02010F] min-h-screen flex items-center justify-center">
-        <p className="text-white/50 text-sm">Cargando películas...</p>
+        <p className="text-white/50 text-sm">Cargando peliculas...</p>
       </section>
     );
   }
