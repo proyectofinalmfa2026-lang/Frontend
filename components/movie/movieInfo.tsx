@@ -1,19 +1,10 @@
 "use client";
 
 import { Movie } from "@/types/movie.types";
+import { timeAgo } from "@/lib/timeAgo";
 
 interface MovieInfoProps {
   movie: Movie;
-}
-
-function timeAgo(dateStr: string): string {
-  const days = Math.floor(
-    (Date.now() - new Date(dateStr).getTime()) / 86400000,
-  );
-  if (days === 0) return "hoy";
-  if (days === 1) return "hace 1 día";
-  if (days < 30) return `hace ${Math.floor(days / 7)} semanas`;
-  return `hace ${Math.floor(days / 30)} meses`;
 }
 
 export default function MovieInfo({ movie }: MovieInfoProps) {

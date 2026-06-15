@@ -1,6 +1,7 @@
 "use client";
 
 import { Movie } from "@/types/movie.types";
+import Link from "next/link";
 
 interface MovieHeroProps {
   movie: Movie;
@@ -16,8 +17,14 @@ export default function MovieHero({ movie }: MovieHeroProps) {
   const avgRating = calcAvgRating(movie.reviews);
 
   return (
-    <div className="relative w-full bg-[#0E0A2B] border-b border-[#22194A]">
-      <div className="max-w-5xl mx-auto px-4 py-12 flex flex-col md:flex-row gap-8 items-start">
+    <div className=" bg-[#0E0A2B] border-b border-[#22194A]">
+      <div className="max-w-5xl mx-auto px-4 py-10 flex flex-col md:flex-row gap-8 ">
+        <Link
+          href="/movies"
+          className="text-sm hover:underline font-medium block text-[#C13A82] mb-8"
+        >
+          ← Volver
+        </Link>
         {/* Poster */}
         <div className="w-40 md:w-52 shrink-0">
           {movie.poster ? (
@@ -25,7 +32,7 @@ export default function MovieHero({ movie }: MovieHeroProps) {
             <img
               src={movie.poster}
               alt={movie.title}
-              className="w-full rounded-xl border border-[#22194A] object-cover"
+              className="w-full rounded-xl  border border-[#22194A] object-cover"
             />
           ) : (
             <div className="w-full aspect-2/3 rounded-xl border border-[#22194A] bg-[#161131] flex items-center justify-center">
