@@ -36,7 +36,6 @@ export function useAuth() {
 
         setProfile(userProfile);
       } catch (err) {
-        console.error("Error al cargar el perfil:", err);
         setError("No se pudo cargar el perfil");
         logout();
       } finally {

@@ -1,20 +1,41 @@
 "use client";
 
+import { useState, useEffect, useCallback } from "react";
 import { Movie } from "@/types/movie.types";
-import { timeAgo } from "@/lib/timeAgo";
+import { Review } from "@/types/review.types";
+import { reviewService } from "@/services/review.services";
+import ReviewCard from "@/components/review/reviewCard";
+import ReviewForm from "@/components/review/reviewForm";
 
 interface MovieInfoProps {
   movie: Movie;
 }
 
 export default function MovieInfo({ movie }: MovieInfoProps) {
-  const reviews = movie.reviews ?? [];
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchReviews = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await reviewService.getByMovie(movie.id);
+      setReviews(res.data);
+    } catch {
+      setReviews([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [movie.id]);
+
+  useEffect(() => {
+    fetchReviews();
+  }, [fetchReviews]);
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8 flex flex-col gap-6">
       {/* Detalles */}
-      <div className="bg-[#0E0A2B] border border-[#22194A] rounded-xl p-5 flex flex-col gap-3">
-        <p className="text-xs font-medium text-[#7B7497] uppercase tracking-wider">
+      <div className="bg-[#0E0A2B] border border-[#22194A] rounded-xl p-5">
+        <p className="text-xs font-medium text-[#7B7497] uppercase tracking-wider mb-4">
           Detalles
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -33,37 +54,27 @@ export default function MovieInfo({ movie }: MovieInfoProps) {
         </div>
       </div>
 
-      {/* Reviews */}
+      {/* Formulario para escribir review */}
+      <ReviewForm movieId={movie.id} onSuccess={fetchReviews} />
+
+      {/* Lista de reviews */}
       <div className="flex flex-col gap-3">
         <p className="text-xs font-medium text-[#7B7497] uppercase tracking-wider">
           Reviews ({reviews.length})
         </p>
 
-        {reviews.length === 0 ? (
+        {loading ? (
+          <p className="text-xs text-[#7B7497] p-4">Cargando reviews...</p>
+        ) : reviews.length === 0 ? (
           <div className="bg-[#0E0A2B] border border-[#22194A] rounded-xl p-10 flex flex-col items-center gap-3 text-center">
             <span className="text-3xl">🎬</span>
             <p className="text-sm text-[#7B7497]">
-              Todavía no hay reviews para esta película.
+              Todavía no hay reviews. ¡Sé el primero!
             </p>
           </div>
         ) : (
           reviews.map((review) => (
-            <div
-              key={review.id}
-              className="bg-[#0E0A2B] border border-[#22194A] rounded-xl p-4 flex flex-col gap-2 hover:border-[#3D3460] transition-colors"
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-[#C13A82]">
-                  ★ {review.rating}
-                </span>
-                <span className="text-xs text-[#7B7497]">
-                  {timeAgo(review.createdAt)}
-                </span>
-              </div>
-              <p className="text-sm text-[#7B7497] leading-relaxed">
-                {review.content}
-              </p>
-            </div>
+            <ReviewCard key={review.id} review={review} showMovie={false} />
           ))
         )}
       </div>

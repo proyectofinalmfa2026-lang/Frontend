@@ -16,7 +16,7 @@ export const useHeroMovies = () => {
     //     const data = await movieService.getTrending();
     //     setMovies(data);
     //   } catch (error) {
-    //     console.error('Error:', error);
+    //     .error('Error:', error);
     //   } finally {
     //     setLoading(false);
     //   }

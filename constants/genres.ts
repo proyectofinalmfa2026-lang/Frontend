@@ -1,10 +1,10 @@
 export const genres = [
   "Todos",
   "Acción",
-  "Drama",
-  "Sci-Fi",
+  "Drama Ciencia Ficcion",
+  "Ciencia Ficcion",
   "Terror",
-  "Comedia",
+  "Terror Cosmico",
   "Thriller",
   "Animación",
 ];

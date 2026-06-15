@@ -9,16 +9,14 @@ export function useMovie(id: string) {
 
   useEffect(() => {
     if (!id) return;
-    console.log("Fetching movie con id:", id); // ← agregá esto
+
     setLoading(true);
     movieService
       .getById(id)
       .then((data) => {
-        console.log("Movie data:", data); // ← y esto
         setMovie(data);
       })
       .catch((err) => {
-        console.error("Error fetching movie:", err); // ← y esto
         setError("No se pudo cargar la película");
       })
       .finally(() => setLoading(false));

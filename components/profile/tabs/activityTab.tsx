@@ -1,20 +1,37 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Review } from "@/types/profile.types";
-
+import { reviewService } from "@/services/review.services";
 import ReviewCard from "../reviewCard";
-
 import EmptyState from "@/components/common/emptyState";
 // ─── Hook ─────────────────────────────────────────────────────────────────────
 
 function useActivity(userId: number) {
-  const [items, setItems] = useState<Review[]>([]);
+  const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setItems([]);
-    setLoading(false);
+    setLoading(true);
+
+    reviewService
+      .getByUser(userId)
+      .then((res) => {
+        const mappedReviews = res.data.map((review: any) => ({
+          id: review.id,
+          movieTitle: review.movie.title,
+          movieYear: review.movie.year,
+          posterUrl: review.movie.poster,
+          score: review.rating,
+          text: review.comment,
+          likes: 0,
+          comments: 0,
+          createdAt: review.createdAt,
+        }));
+
+        setItems(mappedReviews);
+      })
+      .catch(() => setItems([]))
+      .finally(() => setLoading(false));
   }, [userId]);
 
   return { items, loading };
