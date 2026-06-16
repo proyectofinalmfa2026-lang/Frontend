@@ -5,8 +5,9 @@ interface UsernameRulesProps {
 export default function UsernameRules({ username }: UsernameRulesProps) {
   const rules = {
     minLength: username.length >= 3,
-    maxLength: username.length <= 20,
-    validFormat: /^[a-z0-9_]+$/.test(username),
+    maxLength: username.length <= 15,
+    validFormat: /^[a-zA-Z0-9_]+$/.test(username),
+    hasUppercase: /[A-Z]/.test(username),
   };
 
   if (!username.length) return null;
@@ -25,10 +26,14 @@ export default function UsernameRules({ username }: UsernameRulesProps) {
           rules.validFormat ? "text-green-500" : "text-[#7B7497]"
         }`}
       >
-        ✓ Solo letras minúsculas, números y _
+        ✓ Solo letras, números y _
       </p>
-
-      <p className="text-xs text-right text-[#7B7497]">{username.length}/20</p>
+      <p
+        className={`text-xs ${rules.hasUppercase ? "text-green-500" : "text-[#7B7497]"}`}
+      >
+        ✓ Al menos una mayúscula
+      </p>
+      <p className="text-xs text-right text-[#7B7497]">{username.length}/15</p>
     </div>
   );
 }
