@@ -53,10 +53,29 @@ export default function MobileMenu({
           </>
         ) : (
           <>
-            <Link href="/profile" className="text-[#D6D0DC]">
-              👤 {user.name}
+            <Link
+              href={`/profile/${user.username}`}
+              className="flex items-center gap-3 bg-[#0E0A2B] border border-[#22194A] rounded-xl px-3 py-2"
+            >
+              {user.avatar ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={user.avatar}
+                  alt="Avatar"
+                  className="w-9 h-9 rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-9 h-9 rounded-full bg-linear-to-br from-[#C13A82] to-[#8C63C9] flex items-center justify-center text-white text-sm font-medium">
+                  {user.name?.charAt(0).toUpperCase()}
+                </div>
+              )}
+              <div className="flex flex-col">
+                <span className="text-[#D6D0DC] text-sm font-medium">
+                  {user.name}
+                </span>
+                <span className="text-[#7B7497] text-xs">Ver perfil</span>
+              </div>
             </Link>
-
             <button
               onClick={logout}
               className="
