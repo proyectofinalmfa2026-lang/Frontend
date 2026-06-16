@@ -70,12 +70,12 @@ export default function ReviewForm({ movieId, onSuccess }: ReviewFormProps) {
             <button
               key={n}
               onClick={() => setRating(n)}
-              className={`w-8 h-8 rounded-lg text-xs font-medium border transition-colors ${
+              className={`w-8 h-8 rounded-lg text-xs font-medium border transition-colors  ${
                 rating === n
-                  ? "bg-[#C13A82]/20 border-[#C13A82] text-[#C13A82]"
+                  ? "bg-[#C13A82]/20 cursor-pointer border-[#C13A82] text-[#C13A82]"
                   : rating >= n
                     ? "bg-[#C13A82]/10 border-[#C13A82]/30 text-[#C13A82]"
-                    : "border-[#22194A] text-[#7B7497] hover:border-[#3D3460]"
+                    : "border-[#22194A] cursor-pointer text-[#7B7497] hover:border-[#3D3460]"
               }`}
             >
               {n}
@@ -83,7 +83,7 @@ export default function ReviewForm({ movieId, onSuccess }: ReviewFormProps) {
           ))}
           {rating > 0 && (
             <span className="text-sm text-[#C13A82] ml-2 font-medium">
-              {rating}/10
+              {rating}/5
             </span>
           )}
         </div>
@@ -97,11 +97,11 @@ export default function ReviewForm({ movieId, onSuccess }: ReviewFormProps) {
           onChange={(e) => setComment(e.target.value)}
           placeholder="¿Qué te pareció esta película?"
           rows={4}
-          maxLength={500}
+          maxLength={300}
           className="w-full bg-[#02010F] border border-[#22194A] rounded-lg px-3 py-2 text-sm text-[#D6D0DC] placeholder:text-[#3D3460] focus:outline-none focus:border-[#8C63C9] resize-none transition-colors"
         />
         <p className="text-[10px] text-[#3D3460] text-right">
-          {comment.length}/500
+          {comment.length}/300
         </p>
       </div>
 
@@ -112,7 +112,7 @@ export default function ReviewForm({ movieId, onSuccess }: ReviewFormProps) {
       <button
         onClick={handleSubmit}
         disabled={loading}
-        className="w-full bg-[#C13A82] hover:bg-[#A92F71] disabled:opacity-50 disabled:cursor-not-allowed text-white py-2.5 rounded-lg text-sm font-medium transition-colors"
+        className="w-full bg-[#C13A82] hover:bg-[#A92F71] disabled:opacity-50 disabled:cursor-not-allowed text-white py-2.5 rounded-lg text-sm font-medium transition-colors cursor-pointer"
       >
         {loading ? "Publicando..." : "Publicar review"}
       </button>

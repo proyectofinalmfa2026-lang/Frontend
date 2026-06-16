@@ -30,7 +30,15 @@ export default function MovieInfo({ movie }: MovieInfoProps) {
   useEffect(() => {
     fetchReviews();
   }, [fetchReviews]);
+  const handleDeleteReview = async (reviewId: string) => {
+    try {
+      await reviewService.remove(reviewId);
 
+      fetchReviews();
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div className="max-w-5xl mx-auto px-4 py-8 flex flex-col gap-6">
       {/* Detalles */}
@@ -74,7 +82,12 @@ export default function MovieInfo({ movie }: MovieInfoProps) {
           </div>
         ) : (
           reviews.map((review) => (
-            <ReviewCard key={review.id} review={review} showMovie={false} />
+            <ReviewCard
+              key={review.id}
+              review={review}
+              showMovie={false}
+              onDelete={handleDeleteReview}
+            />
           ))
         )}
       </div>
