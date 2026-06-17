@@ -6,6 +6,7 @@ import { Review } from "@/types/review.types";
 import { reviewService } from "@/services/review.services";
 import ReviewCard from "@/components/review/reviewCard";
 import ReviewForm from "@/components/review/reviewForm";
+import MovieRatingStats from "./movieRating";
 
 interface MovieInfoProps {
   movie: Movie;
@@ -40,17 +41,27 @@ export default function MovieInfo({ movie }: MovieInfoProps) {
     }
   };
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8 flex flex-col gap-6">
+    <div className="max-w-6xl mx-auto px-4 py-8 flex flex-col gap-6">
       {/* Detalles */}
       <div className="bg-[#0E0A2B] border border-[#22194A] rounded-xl p-5">
         <p className="text-xs font-medium text-[#7B7497] uppercase tracking-wider mb-4">
           Detalles
         </p>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {[
             { label: "Género", value: movie.genre },
             { label: "Año", value: movie.year },
             { label: "Reviews", value: reviews.length },
+            {
+              label: "Promedio",
+              value:
+                reviews.length > 0
+                  ? (
+                      reviews.reduce((acc, r) => acc + r.rating, 0) /
+                      reviews.length
+                    ).toFixed(1)
+                  : "N/A",
+            },
           ].map((d) => (
             <div key={d.label}>
               <p className="text-xs text-[#7B7497]">{d.label}</p>
@@ -62,7 +73,8 @@ export default function MovieInfo({ movie }: MovieInfoProps) {
         </div>
       </div>
 
-      {/* Formulario para escribir review */}
+      <MovieRatingStats reviews={reviews} />
+
       <ReviewForm movieId={movie.id} onSuccess={fetchReviews} />
 
       {/* Lista de reviews */}
