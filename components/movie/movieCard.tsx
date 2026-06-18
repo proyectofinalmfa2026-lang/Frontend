@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Movie } from "@/types/movie.types";
+import AddToWatchlistButton from "@/components/watchlist/addTowatchlistButton";
 
 interface MovieCardProps {
   movie: Movie;
@@ -17,7 +18,8 @@ export default function MovieCard({ movie }: MovieCardProps) {
 
   return (
     <div className="bg-[#0E0A2B] border border-[#22194A] rounded-2xl overflow-hidden hover:border-[#8C63C9] hover:-translate-y-2 transition-all">
-      <div className="h-72 bg-[#161131] flex items-center justify-center">
+      {/* Poster con botón de watchlist encima */}
+      <div className="relative h-72 bg-[#161131] flex items-center justify-center">
         {movie.poster ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -42,6 +44,11 @@ export default function MovieCard({ movie }: MovieCardProps) {
             <path d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1z" />
           </svg>
         )}
+
+        {/* Botón watchlist — esquina superior derecha */}
+        <div className="absolute top-2 right-2">
+          <AddToWatchlistButton movieId={movie.id} variant="icon" />
+        </div>
       </div>
 
       <div className="p-4">

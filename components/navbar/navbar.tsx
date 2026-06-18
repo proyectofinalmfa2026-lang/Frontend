@@ -9,10 +9,11 @@ import { useAuthStore } from "@/store/authStore";
 import MobileMenu from "../layout/mobileMenu";
 import NavbarDesktop from "./navbarDesktop";
 import NavbarMobile from "./navbarMobile";
+import { useWatchlist } from "@/hooks/useWatchlist";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  useWatchlist();
   const pathname = usePathname();
   const { user, logout } = useAuthStore();
 
