@@ -12,6 +12,16 @@ export const userService = {
 
   getById: (id: number) => api.get(`/users/${id}`),
 
+  getByUsername: async (username: string) => {
+    const res = await api.get(`/users/profile/${username}`);
+    return res.data;
+  },
+
+  getProfileById: async (id: number) => {
+    const res = await api.get(`/users/${id}/profile`);
+    return res.data;
+  },
+
   search: async (query: string): Promise<UserSearchResult[]> => {
     const res = await api.get("/users/search", { params: { q: query } });
     return res.data;

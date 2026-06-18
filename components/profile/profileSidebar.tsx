@@ -168,7 +168,6 @@ export default function ProfileSidebar({
           {[
             { label: "Películas vistas", value: user.stats.moviesWatched },
             { label: "Reviews escritas", value: user.stats.reviews },
-            { label: "Listas creadas", value: user.stats.lists },
             { label: "Rating promedio", value: `${user.stats.avgRating} ★` },
             { label: "Miembro desde", value: joinedYear },
           ].map((stat) => (

@@ -4,12 +4,15 @@ interface BackendUser {
   id: number;
   name: string;
   username: string;
-  email: string;
+  email?: string;
   avatar: string | null;
   bio: string | null;
-  role: string;
+  role?: string;
   isPremium: boolean;
   createdAt: string;
+  reviewsCount?: number;
+  watchlistCount?: number;
+  avgRating?: number;
   favoriteGenres?: string[];
   badges?: ProfileUser["badges"];
   stats?: ProfileUser["stats"];
@@ -27,10 +30,10 @@ export function mapBackendUserToProfile(data: BackendUser): ProfileUser {
     favoriteGenres: data.favoriteGenres ?? [],
     badges: data.badges ?? [],
     stats: data.stats ?? {
-      moviesWatched: 0,
-      reviews: 0,
+      moviesWatched: data.watchlistCount ?? 0,
+      reviews: data.reviewsCount ?? 0,
       lists: 0,
-      avgRating: 0,
+      avgRating: data.avgRating ?? 0,
     },
   };
 }

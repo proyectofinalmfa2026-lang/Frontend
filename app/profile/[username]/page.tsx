@@ -1,5 +1,11 @@
+import { use } from "react";
 import ProfileView from "@/Views/profile/profileView";
 
-export default function UserProfilePage() {
-  return <ProfileView />;
+interface Props {
+  params: Promise<{ username: string }>;
+}
+
+export default function UserProfilePage({ params }: Props) {
+  const { username } = use(params);
+  return <ProfileView username={username} />;
 }
