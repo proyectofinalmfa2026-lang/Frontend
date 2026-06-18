@@ -18,7 +18,7 @@ export default function PasswordRules({ password }: PasswordRulesProps) {
         ✓ Mínimo 8 caracteres
       </p>
       <p className={rules.minLength ? "text-green-500" : "text-[#7B7497]"}>
-        ✓ Mínimo 15 caracteres
+        ✓ Maximo 15 caracteres
       </p>
 
       <p className={rules.uppercase ? "text-green-500" : "text-[#7B7497]"}>

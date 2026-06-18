@@ -20,7 +20,7 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       Cookies.remove("ct_token");
       localStorage.removeItem("ct_auth");
-      window.location.href = "/login";
+      window.location.href = "/Login";
     }
     return Promise.reject(error);
   },

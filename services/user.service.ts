@@ -1,13 +1,22 @@
 import api from "../lib/axios";
 
+export interface UserSearchResult {
+  id: number;
+  name: string;
+  username: string;
+  avatar: string | null;
+}
+
 export const userService = {
-  // Trae el usuario autenticado con todos sus campos (avatar, bio, isPremium, etc.)
   getMe: () => api.get("/auth/profile"),
 
-  // Trae cualquier perfil por ID (para ver perfiles ajenos)
   getById: (id: number) => api.get(`/users/${id}`),
 
-  // Subir avatar
+  search: async (query: string): Promise<UserSearchResult[]> => {
+    const res = await api.get("/users/search", { params: { q: query } });
+    return res.data;
+  },
+
   uploadAvatar: (file: File) => {
     const formData = new FormData();
     formData.append("file", file);
