@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useMovies } from "@/hooks/useMovies";
 import { Movie } from "@/types/movie.types";
 
-
 function RankBadge({ rank }: { rank: number }) {
   return (
     <span
@@ -48,8 +47,7 @@ function getMovieScore(movie: Movie) {
   }
 
   return (
-    reviews.reduce((acc, review) => acc + review.rating, 0) /
-    reviews.length
+    reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length
   ).toFixed(1);
 }
 
@@ -83,7 +81,6 @@ function TopCard({ movie, rank }: { movie: Movie; rank: number }) {
 
           <p className="text-xs sm:text-sm font-medium text-[#C13A82] flex items-center gap-1">
             ★ {getMovieScore(movie)}
-
             <span className="text-[10px] sm:text-xs text-[#7B7497] font-normal">
               (N/A)
             </span>
@@ -105,7 +102,7 @@ function PosterCard({ movie, rank }: { movie: Movie; rank: number }) {
   return (
     <Link href={`/movies/${movie.id}`}>
       <div className="cursor-pointer group">
-        <div className="relative rounded-lg overflow-hidden border border-[#22194A] group-hover:border-[#3D3460] transition-colors aspect-[2/3] w-full">
+        <div className="relative rounded-lg overflow-hidden border border-[#22194A] group-hover:border-[#3D3460] transition-colors aspect-2/3 w-full">
           <RankBadge rank={rank} />
 
           {movie.poster ? (
@@ -178,7 +175,7 @@ export default function TopRatedMovies() {
   const top3 = movies.slice(0, 3);
   const rest = movies.slice(3, 10);
 
-  return  (
+  return (
     <section className="py-8 px-8 bg-[#02010F]">
       {/* Header */}
       <div className="flex items-center gap-2 mb-5">
