@@ -1,13 +1,33 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { useAuthStore } from "@/store/authStore";
+import { confirmSubscription } from "@/services/premium.services";
 
 function ResultContent() {
   const searchParams = useSearchParams();
+  const { token } = useAuthStore();
+  const [confirming, setConfirming] = useState(true);
+  const [confirmError, setConfirmError] = useState(false);
+
   const preapprovalId = searchParams.get("preapproval_id");
   const status = searchParams.get("status");
+
+  useEffect(() => {
+    if (!preapprovalId || !token) {
+      setConfirming(false);
+      return;
+    }
+
+    confirmSubscription(token, preapprovalId)
+      .then(() => setConfirming(false))
+      .catch(() => {
+        setConfirmError(true);
+        setConfirming(false);
+      });
+  }, [preapprovalId, token]);
 
   const isSuccess = !status || status === "authorized" || status === "approved";
   const isPending = status === "pending";
@@ -15,7 +35,22 @@ function ResultContent() {
   return (
     <main className="min-h-screen bg-[#02010F] flex items-center justify-center">
       <div className="bg-[#0E0A2B] border border-[#22194A] rounded-2xl p-8 max-w-md mx-4 text-center">
-        {isSuccess ? (
+
+        {confirming ? (
+          <>
+            <div className="w-16 h-16 rounded-full bg-[#C13A82]/20 flex items-center justify-center mx-auto mb-4 animate-pulse">
+              <svg className="w-8 h-8 text-[#C13A82]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h1 className="text-xl font-semibold text-[#D6D0DC] mb-2">
+              Activando tu suscripción...
+            </h1>
+            <p className="text-sm text-[#7B7497] mb-6">
+              Esperá un momento mientras confirmamos tu pago.
+            </p>
+          </>
+        ) : isSuccess && !confirmError ? (
           <>
             <div className="w-16 h-16 rounded-full bg-[#63C995]/20 flex items-center justify-center mx-auto mb-4">
               <svg className="w-8 h-8 text-[#63C995]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
@@ -23,10 +58,10 @@ function ResultContent() {
               </svg>
             </div>
             <h1 className="text-xl font-semibold text-[#D6D0DC] mb-2">
-              ¡Pago exitoso!
+              ¡Ya sos Premium!
             </h1>
             <p className="text-sm text-[#7B7497] mb-6">
-              Tu suscripción a CineSphere Premium se está procesando. El cambio puede tardar unos minutos en reflejarse.
+              Tu suscripción a CineSphere Premium está activa. Disfrutá de todos los beneficios.
             </p>
           </>
         ) : isPending ? (
@@ -61,16 +96,16 @@ function ResultContent() {
 
         <div className="flex flex-col gap-3">
           <Link
-            href="/premium"
+            href="/profile"
             className="bg-[#C13A82] hover:bg-[#A92F71] text-white font-medium px-6 py-2.5 rounded-lg transition-colors"
           >
-            Volver a Premium
+            Ir a mi perfil
           </Link>
           <Link
-            href="/profile"
+            href="/premium"
             className="text-sm text-[#7B7497] hover:text-[#D6D0DC] transition-colors"
           >
-            Ir a mi perfil
+            Volver a Premium
           </Link>
         </div>
 

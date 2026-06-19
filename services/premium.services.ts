@@ -51,3 +51,16 @@ export const subscribeWithStripe = async (token: string) => {
   );
   return response.data; // { subscriptionId: '...', clientSecret: '...' }
 };
+
+export const confirmSubscription = async (token: string, preapprovalId: string) => {
+  const response = await axios.post(
+    `${API_URL}/subscriptions/confirm/${preapprovalId}`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+};
