@@ -38,3 +38,16 @@ export const cancelSubscription = async (token: string) => {
   );
   return response.data;
 };
+
+export const subscribeWithStripe = async (token: string) => {
+  const response = await axios.post(
+    `${API_URL}/subscriptions/subscribe/stripe`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data; // { subscriptionId: '...', clientSecret: '...' }
+};
