@@ -1,16 +1,54 @@
 // components/home/hero.tsx
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { MovieStrip } from "@/components/ui/movieStrip";
-import { trendingMovies, Movie } from "@/lib/moviesList";
+import { MovieStrip, StripMovie } from "@/components/ui/movieStrip";
+import { useMovies } from "@/hooks/useMovies";
+import { Movie } from "@/types/movie.types";
+
+const HERO_MOVIE_LIMIT = 12;
+
+function getMovieRating(movie: Movie) {
+  const reviews = movie.reviews ?? [];
+
+  if (reviews.length > 0) {
+    return (
+      reviews.reduce((total, review) => total + review.rating, 0) /
+      reviews.length
+    );
+  }
+
+  return movie.rating ?? 0;
+}
+
+function getRandomMovies(movies: Movie[]): StripMovie[] {
+  const shuffled = [...movies];
+
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[randomIndex]] = [
+      shuffled[randomIndex],
+      shuffled[index],
+    ];
+  }
+
+  return shuffled.slice(0, HERO_MOVIE_LIMIT).map((movie) => ({
+    id: movie.id,
+    title: movie.title,
+    poster: movie.poster,
+    rating: getMovieRating(movie),
+  }));
+}
 
 export const Hero = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const { movies } = useMovies();
+
+  const heroMovies = useMemo(() => getRandomMovies(movies), [movies]);
 
   useEffect(() => {
     setIsLoaded(true);
@@ -21,10 +59,10 @@ export const Hero = () => {
   }, []);
 
   // Dividir películas para desktop
-  const third = Math.ceil(trendingMovies.length / 3);
-  const col1 = trendingMovies.slice(0, third);
-  const col2 = trendingMovies.slice(third, third * 2);
-  const col3 = trendingMovies.slice(third * 2);
+  const third = Math.ceil(heroMovies.length / 3);
+  const col1 = heroMovies.slice(0, third);
+  const col2 = heroMovies.slice(third, third * 2);
+  const col3 = heroMovies.slice(third * 2);
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-[#02010f]">
@@ -142,24 +180,35 @@ export const Hero = () => {
           ) : (
             <div className="w-full md:hidden mt-8 overflow-x-auto pb-4">
               <div className="flex gap-3 px-1">
-                {trendingMovies.map((movie) => (
-                  <div
+                {heroMovies.map((movie) => (
+                  <Link
                     key={movie.id}
+                    href={`/movies/${movie.id}`}
                     className="shrink-0 w-28 h-40 rounded-lg overflow-hidden bg-linear-to-b from-[#161131] to-[#0e0a2b] border border-[#22194a]"
                   >
-                    <div className="w-full h-full flex flex-col items-center justify-center p-2 text-center">
-                      <div className="text-3xl mb-1">🎬</div>
-                      <p className="text-xs font-medium text-[#d6d0dc] line-clamp-2">
-                        {movie.title}
-                      </p>
-                      <div className="mt-1 flex items-center gap-1">
-                        <span className="text-[#c13a82] text-xs">★</span>
-                        <span className="text-[10px] text-[#7b7497]">
-                          {movie.rating}
+                    <div className="relative w-full h-full">
+                      {movie.poster ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={movie.poster}
+                          alt={movie.title}
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <div className="flex h-full items-center justify-center p-2 text-center text-xs text-[#7b7497]">
+                          Sin póster
+                        </div>
+                      )}
+                      <div className="absolute inset-x-0 bottom-0 bg-[#02010f]/85 p-2">
+                        <p className="text-xs font-medium text-[#d6d0dc] line-clamp-1">
+                          {movie.title}
+                        </p>
+                        <span className="text-[10px] text-[#c13a82]">
+                          ★ {movie.rating > 0 ? movie.rating.toFixed(1) : "N/A"}
                         </span>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
