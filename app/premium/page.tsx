@@ -61,79 +61,9 @@ export default function PremiumPage() {
   const isPending = subscription?.status === "pending";
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white flex flex-col items-center justify-center px-4">
-      <div className="max-w-md w-full bg-gray-900 rounded-2xl shadow-xl p-8 border border-red-900">
-        
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-red-500 mb-2">CineSphere Premium</h1>
-          <p className="text-gray-400">Accedé a todas las funciones exclusivas</p>
-        </div>
-
-        {/* Beneficios */}
-        <ul className="space-y-3 mb-8">
-          {[
-            "Sin publicidad",
-            "Reseñas ilimitadas",
-            "Acceso anticipado a funciones nuevas",
-            "Badge Premium en tu perfil",
-          ].map((benefit) => (
-            <li key={benefit} className="flex items-center gap-3 text-gray-300">
-              <span className="text-red-500 font-bold">✓</span>
-              {benefit}
-            </li>
-          ))}
-        </ul>
-
-        {/* Precio */}
-        <div className="text-center mb-8">
-          <span className="text-4xl font-bold text-white">$4.99</span>
-          <span className="text-gray-400 ml-2">USD / mes</span>
-        </div>
-
-        {/* Error */}
-        {error && (
-          <p className="text-red-400 text-sm text-center mb-4">{error}</p>
-        )}
-
-        {/* Estado suscripción */}
-        {isActive && (
-          <div className="text-center mb-4">
-            <span className="bg-red-900 text-red-300 px-4 py-1 rounded-full text-sm font-medium">
-              ✓ Suscripción activa
-            </span>
-          </div>
-        )}
-
-        {isPending && (
-          <div className="text-center mb-4">
-            <span className="bg-yellow-900 text-yellow-300 px-4 py-1 rounded-full text-sm font-medium">
-              ⏳ Pago pendiente de confirmación
-            </span>
-          </div>
-        )}
-
-        {/* Botones */}
-        {!isActive && !isPending && (
-          <button
-            onClick={handleSubscribe}
-            disabled={loading}
-            className="w-full bg-red-700 hover:bg-red-600 disabled:opacity-50 text-white font-semibold py-3 rounded-xl transition-colors"
-          >
-            {loading ? "Redirigiendo..." : "Suscribirme con MercadoPago"}
-          </button>
-        )}
-
-        {isActive && (
-          <button
-            onClick={handleCancel}
-            disabled={loadingCancel}
-            className="w-full border border-red-700 hover:bg-red-950 disabled:opacity-50 text-red-400 font-semibold py-3 rounded-xl transition-colors"
-          >
-            {loadingCancel ? "Cancelando..." : "Cancelar suscripción"}
-          </button>
-        )}
-      </div>
+    <div className="p-6">
+      <h1>En construcción</h1>
+      <p>Esta sección estará disponible próximamente.</p>
     </div>
   );
 }

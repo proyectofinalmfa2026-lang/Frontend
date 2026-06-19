@@ -26,8 +26,6 @@ export default function LoginPage() {
   });
 
   const handleGoogleLogin = () => {
-    toast.info("Google Login proximamente disponible");
-    // Aquí podrías redirigir a tu backend para iniciar el flujo de autenticación de Google
     window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/google`;
   };
   const { user } = useAuthStore();
@@ -120,6 +118,7 @@ export default function LoginPage() {
               <input
                 {...register("password")}
                 type="password"
+                maxLength={15}
                 placeholder="Tu contraseña"
                 className="
               bg-[#02010F]
@@ -218,7 +217,7 @@ export default function LoginPage() {
 
           {/* Footer */}
           <p className="text-center text-sm text-[#7B7497] mt-6">
-            ¿No tenés cuenta?{" "}
+            ¿No tienes cuenta?{" "}
             <Link
               href="/Register"
               className="text-[#8C63C9] hover:underline font-medium"

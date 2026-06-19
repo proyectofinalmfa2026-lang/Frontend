@@ -7,12 +7,14 @@ import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 
 import MobileMenu from "../layout/mobileMenu";
+import SearchDropdown from "../layout/searchDropdown";
 import NavbarDesktop from "./navbarDesktop";
 import NavbarMobile from "./navbarMobile";
+import { useWatchlist } from "@/hooks/useWatchlist";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  useWatchlist();
   const pathname = usePathname();
   const { user, logout } = useAuthStore();
 
@@ -53,26 +55,7 @@ export default function Navbar() {
 
         {/* SEARCH DESKTOP */}
         <div className="hidden lg:flex flex-1 justify-center px-10">
-          <input
-            type="text"
-            placeholder="Buscar películas, usuarios..."
-            className="
-              w-full
-              max-w-md
-              bg-[#0E0A2B]
-              border
-              border-[#22194A]
-              rounded-xl
-              px-4
-              py-2
-              text-sm
-              text-[#D6D0DC]
-              placeholder:text-[#7B7497]
-              focus:outline-none
-              focus:border-[#8C63C9]
-              transition-colors
-            "
-          />
+          <SearchDropdown />
         </div>
 
         {/* RIGHT */}
@@ -89,24 +72,7 @@ export default function Navbar() {
 
       {/* SEARCH MOBILE */}
       <div className="lg:hidden px-4 pb-4">
-        <input
-          type="text"
-          placeholder="Buscar películas, usuarios..."
-          className="
-            w-full
-            bg-[#0E0A2B]
-            border
-            border-[#22194A]
-            rounded-xl
-            px-4
-            py-2
-            text-sm
-            text-[#D6D0DC]
-            placeholder:text-[#7B7497]
-            focus:outline-none
-            focus:border-[#8C63C9]
-          "
-        />
+        <SearchDropdown isMobile />
       </div>
 
       <MobileMenu

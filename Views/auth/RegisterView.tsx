@@ -83,6 +83,7 @@ export default function RegisterPage() {
               <input
                 {...register("name")}
                 placeholder="Tu nombre"
+                maxLength={30}
                 className="
                 bg-[#02010F]
                 border border-[#22194A]
@@ -112,7 +113,7 @@ export default function RegisterPage() {
 
               <input
                 {...register("username")}
-                maxLength={20}
+                maxLength={15}
                 placeholder="ej: cine_lover"
                 className="
                 bg-[#02010F]
@@ -205,7 +206,7 @@ export default function RegisterPage() {
                 {...register("confirmPassword")}
                 type="password"
                 maxLength={15}
-                placeholder="Repetí tu contraseña"
+                placeholder="Repite tu contraseña"
                 className="
                 bg-[#02010F]
                 border border-[#22194A]
@@ -251,11 +252,11 @@ export default function RegisterPage() {
           </form>
 
           {/* Footer */}
-          <p className="text-center text-sm text-[#7B7497] mt-6">
-            ¿Ya tenés cuenta?{" "}
+          <p className="text-center text-sm text-[#7B7497] mt-6 ">
+            ¿Ya tienes una cuenta?
             <Link
               href="/Login"
-              className="text-[#8C63C9] hover:underline font-medium cursor-pointer"
+              className="text-[#8C63C9] hover:underline font-medium cursor-pointer p-2"
             >
               Iniciá sesión
             </Link>

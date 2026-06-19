@@ -31,13 +31,20 @@ export default function NavbarDesktop({ user, logout }: Props) {
             href={`/profile/${user.username}`}
             className="flex items-center gap-3 bg-[#0E0A2B] border border-[#22194A] rounded-xl px-3 py-2 hover:border-[#8C63C9] transition-colors"
           >
-            <Image
-              src="/default-avatar.png"
-              alt="Avatar"
-              width={38}
-              height={38}
-              className="rounded-full"
-            />
+            {user.avatar ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={user.avatar}
+                alt="Avatar"
+                width={38}
+                height={38}
+                className="rounded-full object-cover w-9.5 h-9.5"
+              />
+            ) : (
+              <div className="w-9.5 h-9.5 rounded-full bg-linear-to-br from-[#C13A82] to-[#8C63C9] flex items-center justify-center text-white text-sm font-medium">
+                {user.name?.charAt(0).toUpperCase()}
+              </div>
+            )}
 
             <div className="flex flex-col">
               <span className="text-[#D6D0DC] text-sm font-medium">
