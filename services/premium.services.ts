@@ -64,3 +64,16 @@ export const confirmSubscription = async (token: string, preapprovalId: string) 
   );
   return response.data;
 };
+
+export const confirmStripeSubscription = async (token: string, subscriptionId: string) => {
+  const response = await axios.post(
+    `${API_URL}/subscriptions/confirm-stripe/${subscriptionId}`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+};

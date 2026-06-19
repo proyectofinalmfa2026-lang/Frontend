@@ -37,6 +37,7 @@ export default function PremiumPage() {
   const [loadingStripe, setLoadingStripe] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [stripeSubscriptionId, setStripeSubscriptionId] = useState<string | null>(null);
   const [showStripeModal, setShowStripeModal] = useState(false);
 
   useEffect(() => {
@@ -90,20 +91,13 @@ export default function PremiumPage() {
       setError(null);
       const data = await subscribeWithStripe(token);
       setClientSecret(data.clientSecret);
+      setStripeSubscriptionId(data.subscriptionId);
       setShowStripeModal(true);
     } catch {
       setError("Hubo un error al iniciar el pago con Stripe. Intentá de nuevo.");
     } finally {
       setLoadingStripe(false);
     }
-  };
-
-  const handleStripeSuccess = () => {
-    setShowStripeModal(false);
-    setClientSecret(null);
-    getMySubscription(token!)
-      .then((data) => setSubscription(data))
-      .catch(() => setSubscription(null));
   };
 
   const isActive = subscription?.status === "active";
@@ -224,13 +218,14 @@ export default function PremiumPage() {
         )}
       </div>
 
-      {showStripeModal && clientSecret && (
+      {showStripeModal && clientSecret && stripeSubscriptionId && (
         <StripePaymentModal
           clientSecret={clientSecret}
-          onSuccess={handleStripeSuccess}
+          subscriptionId={stripeSubscriptionId}
           onClose={() => {
             setShowStripeModal(false);
             setClientSecret(null);
+            setStripeSubscriptionId(null);
           }}
         />
       )}
