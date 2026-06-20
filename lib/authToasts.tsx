@@ -73,6 +73,33 @@ export const showRegisterToast = () => {
     { position: "top-center", duration: 3000 },
   );
 };
+export const showAuthRequiredToast = (message?: string) => {
+  const msg = message || "Necesitas iniciar sesión para usar esta función.";
+  toast.custom(
+    (t) => (
+      <div className="flex items-center gap-3 bg-[#0E0A2B] border border-[#8C63C9] rounded-xl px-5 py-4 shadow-[0_0_30px_rgba(140,99,201,0.3)]">
+        <span className="text-2xl">🔒</span>
+        <div className="flex-1">
+          <p className="text-[#D6D0DC] font-medium text-sm">{msg}</p>
+          <p className="text-[#7B7497] text-xs">
+            Creá una cuenta o iniciá sesión.
+          </p>
+        </div>
+        <button
+          onClick={() => {
+            window.location.href = "/Login";
+            toast.dismiss(t);
+          }}
+          className="rounded-lg bg-[#8C63C9] px-4 py-1.5 text-xs font-medium text-white transition hover:bg-[#9B75D4] cursor-pointer"
+        >
+          Ingresar
+        </button>
+      </div>
+    ),
+    { position: "top-center", duration: 5000 },
+  );
+};
+
 export const showLogoutToast = () => {
   const msg = random(logoutMessages);
   toast.custom(
