@@ -38,7 +38,9 @@ export default function PremiumPage() {
   const [loadingStripe, setLoadingStripe] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
-  const [stripeSubscriptionId, setStripeSubscriptionId] = useState<string | null>(null);
+  const [stripeSubscriptionId, setStripeSubscriptionId] = useState<
+    string | null
+  >(null);
   const [showStripeModal, setShowStripeModal] = useState(false);
 
   useEffect(() => {
@@ -49,7 +51,10 @@ export default function PremiumPage() {
   }, [token]);
 
   const handleSubscribe = async () => {
-    if (!token) { router.push("/Login"); return; }
+    if (!token) {
+      router.push("/Login");
+      return;
+    }
     try {
       setLoading(true);
       setError(null);
@@ -80,11 +85,15 @@ export default function PremiumPage() {
       setError("Stripe no está configurado.");
       return;
     }
-    if (!token) { router.push("/Login"); return; }
+    if (!token) {
+      router.push("/Login");
+      return;
+    }
     try {
       setLoadingStripe(true);
       setError(null);
       const data = await subscribeWithStripe(token);
+
       setClientSecret(data.clientSecret);
       setStripeSubscriptionId(data.subscriptionId);
       setShowStripeModal(true);
@@ -105,7 +114,7 @@ export default function PremiumPage() {
         {isActive && (
           <div className="max-w-md mx-auto mb-8 bg-[#0E0A2B] border border-[#C13A82]/30 rounded-xl p-4 text-center">
             <p className="text-[#D6D0DC] text-sm font-medium">
-              Ya tenés Premium activo
+              Ya tienes Premium activo
             </p>
             <button
               onClick={handleCancel}
@@ -118,7 +127,9 @@ export default function PremiumPage() {
         )}
 
         {error && (
-          <p className="max-w-md mx-auto mb-4 text-center text-xs text-[#C13A82]">{error}</p>
+          <p className="max-w-md mx-auto mb-4 text-center text-xs text-[#C13A82]">
+            {error}
+          </p>
         )}
 
         <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto mb-16">
@@ -136,7 +147,13 @@ export default function PremiumPage() {
             period="/mes"
             features={PREMIUM_FEATURES}
             highlighted
-            ctaLabel={loading ? "Procesando..." : isActive ? "Ya sos Premium" : "Suscribirse"}
+            ctaLabel={
+              loading
+                ? "Procesando..."
+                : isActive
+                  ? "Ya eres Premium"
+                  : "Suscribirse"
+            }
             disabled={isActive || loading}
           />
         </div>
