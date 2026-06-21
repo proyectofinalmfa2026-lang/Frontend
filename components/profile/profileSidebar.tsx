@@ -4,48 +4,12 @@ import Link from "next/link";
 import { Badge, ProfileUser } from "@/types/profile.types";
 import FollowButton from "@/components/profile/followButton";
 
-// ─── Colores de badges ────────────────────────────────────────────────────────
-
 const BADGE_COLORS: Record<Badge["color"], string> = {
   gold: "bg-[#F0A500]/10 border-[#F0A500]/30 text-[#F0A500]",
   blue: "bg-[#639DC9]/10 border-[#639DC9]/30 text-[#639DC9]",
   green: "bg-[#63C995]/10 border-[#63C995]/30 text-[#63C995]",
   purple: "bg-[#8C63C9]/10 border-[#8C63C9]/30 text-[#8C63C9]",
 };
-
-// ─── Mock ─────────────────────────────────────────────────────────────────────
-// Se usa mientras el backend no esté listo.
-// Cuando tus compañeros terminen el endpoint, borrás esto y usás useProfile().
-
-export const MOCK_USER: ProfileUser = {
-  id: 1,
-  username: "ale_dev",
-  name: "Ale",
-  bio: "Cinéfilo de corazón. Nolan, Kubrick y café ☕",
-  avatarUrl: null,
-  isPremium: true,
-  joinedAt: "2024-01-15",
-  favoriteGenres: ["Drama", "Sci-Fi", "Thriller", "Noir"],
-  followersCount: 0,
-  followingCount: 0,
-  badges: [
-    { id: "1", label: "Top Reviewer", color: "gold", icon: "⭐" },
-    { id: "2", label: "500 reviews", color: "blue", icon: "🏆" },
-    { id: "3", label: "En racha", color: "green", icon: "🔥" },
-  ],
-  stats: {
-    moviesWatched: 248,
-    reviews: 84,
-    lists: 12,
-    avgRating: 4.1,
-  },
-};
-
-// CÓMO CONECTAR:
-//   1. Descomentar el import de userService
-//   2. Descomentar el fetch dentro del useEffect
-//   3. Borrar la línea "setUser(MOCK_USER)"
-//   4. Asegurarte que el endpoint devuelva la misma forma que ProfileUser
 
 import { useState, useEffect } from "react";
 
@@ -56,22 +20,7 @@ export function useProfile(username: string) {
 
   useEffect(() => {
     setLoading(true);
-
-    // ── Conectar backend ──────────────────────────────────────────────────────
-    // import { userService } from "@/services/user.service";
-    //
-    // userService
-    //   .getProfile(username)
-    //   .then((data) => setUser(data))
-    //   .catch(() => setError("No se pudo cargar el perfil"))
-    //   .finally(() => setLoading(false));
-    // ─────────────────────────────────────────────────────────────────────────
-
-    // Mock temporal — borrar cuando conectes el backend
-    setTimeout(() => {
-      setUser(MOCK_USER);
-      setLoading(false);
-    }, 0);
+    setLoading(false);
   }, [username]);
 
   return { user, loading, error };
@@ -89,7 +38,6 @@ function Avatar({
   return (
     <div className="relative w-18 h-18 shrink-0">
       {user.avatarUrl ? (
-        // eslint-disable-next-line @next/next/no-img-element
         <img
           src={user.avatarUrl}
           alt={user.name}
@@ -127,23 +75,37 @@ interface ProfileSidebarProps {
   user: ProfileUser;
   isOwnProfile: boolean;
   currentUserId?: number;
+  onFollowChange?: () => void;
 }
 
 export default function ProfileSidebar({
   user,
   isOwnProfile,
   currentUserId,
+  onFollowChange,
 }: ProfileSidebarProps) {
   const joinedYear = new Date(user.joinedAt).getFullYear();
   const [followersCount, setFollowersCount] = useState(user.followersCount);
+  const [followingCount, setFollowingCount] = useState(user.followingCount);
+
+  useEffect(() => {
+    setFollowersCount(user.followersCount);
+    setFollowingCount(user.followingCount);
+  }, [user.followersCount, user.followingCount]);
 
   const handleFollowChange = (following: boolean) => {
-    setFollowersCount((current) => Math.max(0, current + (following ? 1 : -1)));
+    if (following) {
+      setFollowersCount((c) => c + 1);
+      setFollowingCount((c) => c + 1);
+    } else {
+      setFollowersCount((c) => Math.max(0, c - 1));
+      setFollowingCount((c) => Math.max(0, c - 1));
+    }
+    onFollowChange?.();
   };
 
   return (
     <aside className="flex flex-col gap-3 w-full">
-      {/* ── Card principal ── */}
       <div className="bg-[#0E0A2B] border border-[#22194A] rounded-xl overflow-hidden">
         <div className="flex flex-col items-center gap-2 p-5 text-center">
           <Avatar user={user} isOwnProfile={isOwnProfile} />
@@ -187,7 +149,7 @@ export default function ProfileSidebar({
             { label: "Películas vistas", value: user.stats.moviesWatched },
             { label: "Reviews escritas", value: user.stats.reviews },
             { label: "Seguidores", value: followersCount },
-            { label: "Siguiendo", value: user.followingCount },
+            { label: "Siguiendo", value: followingCount },
             { label: "Rating promedio", value: `${user.stats.avgRating} ★` },
             { label: "Miembro desde", value: joinedYear },
           ].map((stat) => (
@@ -204,7 +166,6 @@ export default function ProfileSidebar({
         </div>
       </div>
 
-      {/* ── Géneros favoritos ── */}
       <div className="bg-[#0E0A2B] border border-[#22194A] rounded-xl p-4">
         <p className="text-[10px] font-medium text-[#7B7497] uppercase tracking-wider mb-3">
           Géneros favoritos
@@ -229,7 +190,6 @@ export default function ProfileSidebar({
         </div>
       </div>
 
-      {/* ── Badges (solo premium) ── */}
       {user.isPremium && (
         <div className="bg-[#0E0A2B] border border-[#22194A] rounded-xl p-4">
           <p className="text-[10px] font-medium text-[#7B7497] uppercase tracking-wider mb-3">

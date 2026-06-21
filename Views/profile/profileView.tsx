@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import { userService } from "@/services/user.service";
@@ -17,7 +17,7 @@ export default function ProfilePage({ username }: { username?: string }) {
 
   const targetUsername = username ?? user?.username;
 
-  useEffect(() => {
+  const fetchProfile = useCallback(() => {
     if (!targetUsername) return;
     setLoading(true);
     userService
@@ -30,6 +30,10 @@ export default function ProfilePage({ username }: { username?: string }) {
       })
       .finally(() => setLoading(false));
   }, [targetUsername, router]);
+
+  useEffect(() => {
+    fetchProfile();
+  }, [fetchProfile]);
 
   if (loading) {
     return (
@@ -56,6 +60,7 @@ export default function ProfilePage({ username }: { username?: string }) {
               user={profile}
               isOwnProfile={isOwnProfile}
               currentUserId={isAuthenticated ? user?.id : undefined}
+              onFollowChange={fetchProfile}
             />
           </div>
           <div className="flex-1 min-w-0">

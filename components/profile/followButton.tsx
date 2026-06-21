@@ -1,8 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
 import { followService } from "@/services/follow.service";
+import {
+  showFollowToast,
+  showFollowErrorToast,
+  showAuthRequiredToast,
+} from "@/lib/authToasts";
+import { useAuthStore } from "@/store/authStore";
 
 interface FollowButtonProps {
   targetUserId: number;
@@ -15,6 +20,7 @@ export default function FollowButton({
   currentUserId,
   onFollowChange,
 }: FollowButtonProps) {
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const [isFollowing, setIsFollowing] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -27,9 +33,7 @@ export default function FollowButton({
         if (active) setIsFollowing(following);
       })
       .catch(() => {
-        if (active) {
-          toast.error("No se pudo comprobar si sigues a este usuario.");
-        }
+        // Silently handle — el estado inicial queda como "no sigue"
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -42,6 +46,10 @@ export default function FollowButton({
 
   const handleFollow = async () => {
     if (loading) return;
+    if (!isAuthenticated) {
+      showAuthRequiredToast("Necesitás una cuenta para seguir usuarios.");
+      return;
+    }
 
     const previousValue = isFollowing;
     setLoading(true);
@@ -54,9 +62,9 @@ export default function FollowButton({
         onFollowChange?.(result.following);
       }
 
-      toast.success(result.message);
+      showFollowToast(result.following);
     } catch {
-      toast.error("No se pudo actualizar el seguimiento. Intenta nuevamente.");
+      showFollowErrorToast();
     } finally {
       setLoading(false);
     }
@@ -70,8 +78,8 @@ export default function FollowButton({
       aria-pressed={isFollowing}
       className={`w-full rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-60 ${
         isFollowing
-          ? "border-[#C13A82] bg-[#C13A82] text-white hover:bg-[#A92F70]"
-          : "border-[#3D3460] bg-transparent text-[#D6D0DC] hover:border-[#C13A82] hover:text-[#C13A82]"
+          ? "border-[#C13A82] bg-[#C13A82] text-white hover:bg-[#A92F70] cursor-pointer"
+          : "border-[#3D3460] bg-transparent text-[#D6D0DC] hover:border-[#C13A82] hover:text-[#C13A82] "
       }`}
     >
       {loading ? "Cargando..." : isFollowing ? "Siguiendo" : "Seguir"}

@@ -100,6 +100,72 @@ export const showAuthRequiredToast = (message?: string) => {
   );
 };
 
+const followMessages = [
+  {
+    icon: "🎬",
+    title: "¡Ahora siguess a este usuario!",
+    sub: "Ya sigues su actividad.",
+  },
+  {
+    icon: "🎭",
+    title: "Nueva conexión cinéfila.",
+    sub: "Usuario seguido correctamente.",
+  },
+  {
+    icon: "🍿",
+    title: "¡Ahora están en sincronía!",
+    sub: "Comenzaste a seguír a este usuario.",
+  },
+];
+
+const unfollowMessages = [
+  {
+    icon: "👋",
+    title: "Dejaste de seguír al usuario.",
+    sub: "Ya no sigues su actividad.",
+  },
+  {
+    icon: "🎬",
+    title: "Conexión finalizada.",
+    sub: "Usuario dejado de seguír.",
+  },
+];
+
+export const showFollowToast = (following: boolean) => {
+  const msg = following
+    ? followMessages[Math.floor(Math.random() * followMessages.length)]
+    : unfollowMessages[Math.floor(Math.random() * unfollowMessages.length)];
+  toast.custom(
+    () => (
+      <div className="flex items-center gap-3 bg-[#0E0A2B] border border-[#8C63C9] rounded-xl px-5 py-4 shadow-[0_0_30px_rgba(140,99,201,0.3)]">
+        <span className="text-2xl">{msg.icon}</span>
+        <div>
+          <p className="text-[#D6D0DC] font-medium text-sm">{msg.title}</p>
+          <p className="text-[#7B7497] text-xs">{msg.sub}</p>
+        </div>
+      </div>
+    ),
+    { position: "top-center", duration: 3000 },
+  );
+};
+
+export const showFollowErrorToast = () => {
+  toast.custom(
+    () => (
+      <div className="flex items-center gap-3 bg-[#0E0A2B] border border-[#8C63C9] rounded-xl px-5 py-4 shadow-[0_0_30px_rgba(140,99,201,0.3)]">
+        <span className="text-2xl">⚠️</span>
+        <div>
+          <p className="text-[#D6D0DC] font-medium text-sm">
+            No se pudo actualizar
+          </p>
+          <p className="text-[#7B7497] text-xs">Intentá de nuevo más tarde.</p>
+        </div>
+      </div>
+    ),
+    { position: "top-center", duration: 3000 },
+  );
+};
+
 export const showLogoutToast = () => {
   const msg = random(logoutMessages);
   toast.custom(
