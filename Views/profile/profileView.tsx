@@ -51,7 +51,12 @@ export default function ProfilePage({ username }: { username?: string }) {
       <div className="max-w-5xl mx-auto px-4">
         <div className="flex flex-col md:flex-row gap-4 items-start">
           <div className="w-full md:w-55 md:shrink-0">
-            <ProfileSidebar user={profile} isOwnProfile={isOwnProfile} />
+            <ProfileSidebar
+              key={profile.id}
+              user={profile}
+              isOwnProfile={isOwnProfile}
+              currentUserId={isAuthenticated ? user?.id : undefined}
+            />
           </div>
           <div className="flex-1 min-w-0">
             <ProfileFeed userId={profile.id} />

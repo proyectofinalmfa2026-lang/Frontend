@@ -8,6 +8,8 @@ export interface ProfileUser {
   joinedAt: string; // fecha ISO "2024-01-01"
   favoriteGenres: string[]; // ej: ["Drama", "Sci-Fi", "Thriller"]
   badges: Badge[]; // solo premium puede tener badges
+  followersCount: number;
+  followingCount: number;
   stats: UserStats;
 }
 

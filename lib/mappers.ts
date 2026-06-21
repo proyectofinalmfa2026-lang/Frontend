@@ -16,6 +16,8 @@ interface BackendUser {
   favoriteGenres?: string[];
   badges?: ProfileUser["badges"];
   stats?: ProfileUser["stats"];
+  followersCount?: number;
+  followingCount?: number;
 }
 
 export function mapBackendUserToProfile(data: BackendUser): ProfileUser {
@@ -29,6 +31,8 @@ export function mapBackendUserToProfile(data: BackendUser): ProfileUser {
     joinedAt: data.createdAt ?? new Date().toISOString(),
     favoriteGenres: data.favoriteGenres ?? [],
     badges: data.badges ?? [],
+    followersCount: data.followersCount ?? 0,
+    followingCount: data.followingCount ?? 0,
     stats: data.stats ?? {
       moviesWatched: data.watchlistCount ?? 0,
       reviews: data.reviewsCount ?? 0,

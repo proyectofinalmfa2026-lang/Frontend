@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Badge, ProfileUser } from "@/types/profile.types";
+import FollowButton from "@/components/profile/followButton";
 
 // ─── Colores de badges ────────────────────────────────────────────────────────
 
@@ -25,6 +26,8 @@ export const MOCK_USER: ProfileUser = {
   isPremium: true,
   joinedAt: "2024-01-15",
   favoriteGenres: ["Drama", "Sci-Fi", "Thriller", "Noir"],
+  followersCount: 0,
+  followingCount: 0,
   badges: [
     { id: "1", label: "Top Reviewer", color: "gold", icon: "⭐" },
     { id: "2", label: "500 reviews", color: "blue", icon: "🏆" },
@@ -123,13 +126,20 @@ function Avatar({
 interface ProfileSidebarProps {
   user: ProfileUser;
   isOwnProfile: boolean;
+  currentUserId?: number;
 }
 
 export default function ProfileSidebar({
   user,
   isOwnProfile,
+  currentUserId,
 }: ProfileSidebarProps) {
   const joinedYear = new Date(user.joinedAt).getFullYear();
+  const [followersCount, setFollowersCount] = useState(user.followersCount);
+
+  const handleFollowChange = (following: boolean) => {
+    setFollowersCount((current) => Math.max(0, current + (following ? 1 : -1)));
+  };
 
   return (
     <aside className="flex flex-col gap-3 w-full">
@@ -142,6 +152,14 @@ export default function ProfileSidebar({
             <p className="text-base font-medium text-[#D6D0DC]">{user.name}</p>
             <p className="text-xs text-[#7B7497]">@{user.username}</p>
           </div>
+
+          {!isOwnProfile && currentUserId && (
+            <FollowButton
+              targetUserId={user.id}
+              currentUserId={currentUserId}
+              onFollowChange={handleFollowChange}
+            />
+          )}
 
           {user.isPremium && (
             <span className="inline-flex items-center gap-1 bg-[#C13A82]/10 border border-[#C13A82]/30 rounded-full px-2.5 py-1 text-xs font-medium text-[#C13A82]">
@@ -168,6 +186,8 @@ export default function ProfileSidebar({
           {[
             { label: "Películas vistas", value: user.stats.moviesWatched },
             { label: "Reviews escritas", value: user.stats.reviews },
+            { label: "Seguidores", value: followersCount },
+            { label: "Siguiendo", value: user.followingCount },
             { label: "Rating promedio", value: `${user.stats.avgRating} ★` },
             { label: "Miembro desde", value: joinedYear },
           ].map((stat) => (
