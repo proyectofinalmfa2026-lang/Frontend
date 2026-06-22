@@ -1,8 +1,10 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { showLogoutToast } from "@/lib/authToasts";
+import { useNotificationsStore } from "@/store/notificationsStore";
 import NavbarNotifications from "./navbarNotifications";
 
 interface Props {
@@ -11,12 +13,22 @@ interface Props {
 }
 
 export default function NavbarDesktop({ user, logout }: Props) {
+  const { notifications, unreadCount, fetchNotifications, connectSocket } =
+    useNotificationsStore();
+
+  useEffect(() => {
+    if (!user?.id) return;
+    fetchNotifications(user.id);
+    const disconnect = connectSocket(user.id);
+    return () => disconnect();
+  }, [user?.id, fetchNotifications, connectSocket]);
+
   return (
     <div className="hidden md:flex items-center gap-3">
       <NavbarNotifications
         isAuthenticated={!!user}
-        notificationsCount={3}
-        /*TODO: COnectar notis y cambiar por: notificationsCount={notifications.length} */
+        notifications={notifications}
+        unreadCount={unreadCount}
       />
       {!user ? (
         <Link

@@ -58,13 +58,6 @@ export default function Footer() {
               </Link>
 
               <Link
-                href="/series"
-                className="text-[#7B7497] hover:text-[#8C63C9]"
-              >
-                Series
-              </Link>
-
-              <Link
                 href="/community"
                 className="text-[#7B7497] hover:text-[#8C63C9]"
               >

@@ -83,13 +83,6 @@ export default function PremiumBanner() {
                   href="/premium"
                   className="bg-[#C13A82] hover:bg-[#A92F71] text-white font-medium px-6 py-3 rounded-lg transition-colors"
                 >
-                  Probar 7 días gratis
-                </Link>
-
-                <Link
-                  href="/premium"
-                  className="border border-[#22194A] hover:border-[#3D3460] text-[#D6D0DC] px-6 py-3 rounded-lg transition-colors"
-                >
                   Ver planes
                 </Link>
               </div>

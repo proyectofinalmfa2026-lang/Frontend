@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { MovieStrip, StripMovie } from "@/components/ui/movieStrip";
 import { useMovies } from "@/hooks/useMovies";
+import { useAuthStore } from "@/store/authStore";
 import { Movie } from "@/types/movie.types";
 
 const HERO_MOVIE_LIMIT = 12;
@@ -47,6 +48,7 @@ export const Hero = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const { movies } = useMovies();
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
 
   const heroMovies = useMemo(() => getRandomMovies(movies), [movies]);
 
@@ -137,18 +139,10 @@ export const Hero = () => {
               transition={{ duration: 0.4, delay: 0.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
             >
-              <Link href="/Register">
+              <Link href={isAuthenticated ? "/movies" : "/Register"}>
                 <Button className="bg-linear-to-r from-[#c13a82] to-[#8c63c9] text-white font-semibold px-8 py-6 rounded-full">
-                  Comenzar ahora
+                  {isAuthenticated ? "Ir a películas" : "Comenzar ahora"}
                   <span className="ml-2">→</span>
-                </Button>
-              </Link>
-              <Link href="/movies">
-                <Button
-                  variant="outline"
-                  className="border-[#22194a] text-[#d6d0dc] px-8 py-6 rounded-full"
-                >
-                  Explorar películas
                 </Button>
               </Link>
             </motion.div>

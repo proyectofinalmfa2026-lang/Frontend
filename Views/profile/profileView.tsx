@@ -8,6 +8,7 @@ import { mapBackendUserToProfile } from "@/lib/mappers";
 import { type ProfileUser } from "@/types/profile.types";
 import ProfileSidebar from "@/components/profile/profileSidebar";
 import ProfileFeed from "@/components/profile/profileStats";
+import Loading from "@/components/ui/loading";
 
 export default function ProfilePage({ username }: { username?: string }) {
   const router = useRouter();
@@ -36,11 +37,7 @@ export default function ProfilePage({ username }: { username?: string }) {
   }, [fetchProfile]);
 
   if (loading) {
-    return (
-      <main className="min-h-screen bg-[#02010F] flex items-center justify-center">
-        <p className="text-white/50 text-sm">Cargando perfil...</p>
-      </main>
-    );
+    return <Loading />;
   }
 
   if (!profile) {

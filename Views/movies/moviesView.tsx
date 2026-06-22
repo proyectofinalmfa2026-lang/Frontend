@@ -4,6 +4,7 @@ import { useState } from "react";
 import MovieFilters from "@/components/movie/movieFilters";
 import MovieGrid from "@/components/movie/movieGrid";
 import { useMovies } from "@/hooks/useMovies";
+import Loading from "@/components/ui/loading";
 
 export default function MoviesView() {
   const { movies, loading, error } = useMovies();
@@ -21,11 +22,7 @@ export default function MoviesView() {
   });
 
   if (loading) {
-    return (
-      <section className="bg-[#02010F] min-h-screen flex items-center justify-center">
-        <p className="text-white/50 text-sm">Cargando peliculas...</p>
-      </section>
-    );
+    return <Loading />;
   }
 
   if (error) {
