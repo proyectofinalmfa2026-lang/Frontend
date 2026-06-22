@@ -5,20 +5,25 @@ import { timeAgo } from "@/lib/timeAgo";
 import { useAuthStore } from "@/store/authStore";
 import { useState } from "react";
 import Modal from "@/components/ui/modal";
+import LikeButton from "@/components/review/likeButton";
+import CommentSection from "@/components/review/commentSection";
 
 interface ReviewCardProps {
   review: Review;
-  showMovie?: boolean; // en el perfil mostramos la película, en la página de movie no
+  showMovie?: boolean;
   onDelete?: (reviewId: string) => void;
+  commentsCount?: number;
 }
 
 export default function ReviewCard({
   review,
   showMovie = true,
   onDelete,
+  commentsCount = 0,
 }: ReviewCardProps) {
   const { user } = useAuthStore();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showComments, setShowComments] = useState(false);
   const isOwner = user?.id === review.user.id;
 
   return (
@@ -103,6 +108,32 @@ export default function ReviewCard({
 
       {/* Comentario */}
       <p className="text-sm text-[#7B7497] leading-relaxed">{review.comment}</p>
+
+      {/* Like + Comentario */}
+      <div className="flex items-center gap-3 mt-0.5">
+        <LikeButton reviewId={review.id} />
+        <button
+          onClick={() => setShowComments(!showComments)}
+          className={`flex items-center gap-1.5 text-xs transition-colors cursor-pointer ${
+            showComments ? "text-[#8C63C9]" : "text-[#7B7497] hover:text-[#D6D0DC]"
+          }`}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+          </svg>
+          <span>Comentar {commentsCount > 0 && `(${commentsCount})`}</span>
+        </button>
+      </div>
+
+      {showComments && <CommentSection reviewId={review.id} />}
 
       {/*Confirmacion de Borrar Review*/}
       <Modal open={showDeleteModal} onClose={() => setShowDeleteModal(false)}>

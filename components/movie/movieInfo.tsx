@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Movie } from "@/types/movie.types";
 import { Review } from "@/types/review.types";
 import { reviewService } from "@/services/review.services";
+import { commentService } from "@/services/comment.service";
 import ReviewCard from "@/components/review/reviewCard";
 import ReviewForm from "@/components/review/reviewForm";
 import MovieRatingStats from "./movieRating";
@@ -15,12 +16,24 @@ interface MovieInfoProps {
 export default function MovieInfo({ movie }: MovieInfoProps) {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
+  const [commentsCount, setCommentsCount] = useState<Record<string, number>>({});
 
   const fetchReviews = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await reviewService.getByMovie(movie.id);
+      const [res, allComments] = await Promise.all([
+        reviewService.getByMovie(movie.id),
+        commentService.getAll().catch(() => []),
+      ]);
       setReviews(res.data);
+      const countMap: Record<string, number> = {};
+      if (Array.isArray(allComments)) {
+        for (const c of allComments) {
+          const rid = c.review.id;
+          countMap[rid] = (countMap[rid] || 0) + 1;
+        }
+      }
+      setCommentsCount(countMap);
     } catch {
       setReviews([]);
     } finally {
@@ -99,6 +112,7 @@ export default function MovieInfo({ movie }: MovieInfoProps) {
               review={review}
               showMovie={false}
               onDelete={handleDeleteReview}
+              commentsCount={commentsCount[review.id] ?? 0}
             />
           ))
         )}

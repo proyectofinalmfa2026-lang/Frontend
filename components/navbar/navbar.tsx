@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { useAuthStore } from "@/store/authStore";
+import { showLogoutToast } from "@/lib/authToasts";
 
 import MobileMenu from "../layout/mobileMenu";
 import SearchDropdown from "../layout/searchDropdown";
@@ -13,10 +14,17 @@ import NavbarMobile from "./navbarMobile";
 import { useWatchlist } from "@/hooks/useWatchlist";
 
 export default function Navbar() {
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   useWatchlist();
   const pathname = usePathname();
   const { user, logout } = useAuthStore();
+  const handleLogout = useCallback(() => {
+    const onProfile = pathname.startsWith("/profile/");
+    logout();
+    showLogoutToast();
+    if (onProfile) router.push("/");
+  }, [logout, pathname, router]);
 
   const links = [
     { href: "/movies", label: "Películas" },
@@ -60,7 +68,7 @@ export default function Navbar() {
 
         {/* RIGHT */}
         <div className="flex items-center gap-3">
-          <NavbarDesktop user={user} logout={logout} />
+          <NavbarDesktop user={user} logout={handleLogout} />
 
           <NavbarMobile
             user={user}

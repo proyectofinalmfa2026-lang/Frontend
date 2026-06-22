@@ -1,5 +1,6 @@
 import { Review } from "@/types/profile.types";
 import { timeAgo } from "@/lib/timeAgo";
+import LikeButton from "@/components/review/likeButton";
 
 interface ReviewCardProps {
   review: Review;
@@ -54,7 +55,7 @@ export default function ReviewCard({ review }: ReviewCardProps) {
         </p>
 
         <div className="flex items-center gap-3 mt-2.5">
-          <span className="text-xs text-[#7B7497]">❤️ {review.likes}</span>
+          <LikeButton reviewId={String(review.id)} />
           <span className="text-xs text-[#7B7497]">💬 {review.comments}</span>
         </div>
       </div>

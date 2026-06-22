@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { showLogoutToast } from "@/lib/authToasts";
 import { useNotificationsStore } from "@/store/notificationsStore";
 import NavbarNotifications from "./navbarNotifications";
 
@@ -68,10 +67,7 @@ export default function NavbarDesktop({ user, logout }: Props) {
           </Link>
 
           <button
-            onClick={() => {
-              logout();
-              showLogoutToast();
-            }}
+            onClick={logout}
             className="border border-[#C13A82] text-[#C13A82] hover:bg-[#C13A82] hover:text-white px-4 py-2 rounded-lg transition-colors font-medium cursor-pointer"
           >
             Salir
