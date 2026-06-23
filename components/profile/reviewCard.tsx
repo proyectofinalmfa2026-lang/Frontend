@@ -1,6 +1,7 @@
 import { Review } from "@/types/profile.types";
 import { timeAgo } from "@/lib/timeAgo";
 import LikeButton from "@/components/review/likeButton";
+import CommentCount from "@/components/profile/commentCount";
 
 interface ReviewCardProps {
   review: Review;
@@ -56,7 +57,7 @@ export default function ReviewCard({ review }: ReviewCardProps) {
 
         <div className="flex items-center gap-3 mt-2.5">
           <LikeButton reviewId={String(review.id)} />
-          <span className="text-xs text-[#7B7497]">💬 {review.comments}</span>
+          <CommentCount reviewId={review.id} />
         </div>
       </div>
     </div>

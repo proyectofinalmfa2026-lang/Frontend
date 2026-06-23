@@ -34,4 +34,9 @@ export const userService = {
       headers: { "Content-Type": "multipart/form-data" },
     });
   },
+
+  updateProfile: (data: {
+    favoriteGenres?: string[];
+    badges?: { id: string; label: string; color: string; icon: string; requiredTier?: "free" | "premium" }[];
+  }) => api.put("/auth/profile", data),
 };

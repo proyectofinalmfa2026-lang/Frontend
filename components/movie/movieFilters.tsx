@@ -1,6 +1,6 @@
 "use client";
 
-import { genres } from "@/constants/genres";
+import { GENRES as genres } from "@/constants/genres";
 
 interface MovieFiltersProps {
   search: string;

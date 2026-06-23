@@ -16,8 +16,9 @@ export interface ProfileUser {
 export interface Badge {
   id: string;
   label: string;
-  color: "gold" | "blue" | "green" | "purple";
-  icon: string; // emoji o nombre de ícono
+  color: "gold" | "blue" | "green" | "purple" | "rose" | "cyan";
+  icon: string;
+  requiredTier?: "free" | "premium"; // free = cualquiera, premium (default) = solo premium
 }
 
 export interface UserStats {

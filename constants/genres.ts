@@ -1,10 +1,23 @@
-export const genres = [
-  "Todos",
+export const GENRES = [
   "Acción",
-  "Drama Ciencia Ficcion",
-  "Ciencia Ficcion",
-  "Terror",
-  "Terror Cosmico",
-  "Thriller",
+  "Aventura",
   "Animación",
+  "Comedia",
+  "Crimen",
+  "Documental",
+  "Drama",
+  "Fantasía",
+  "Histórico",
+  "Musical",
+  "Misterio",
+  "Romance",
+  "Ciencia Ficción",
+  "Suspenso",
+  "Terror",
+  "Terror Cósmico",
+  "Thriller",
+  "Bélico",
+  "Western",
 ];
+
+export const MAX_FAVORITE_GENRES = 5;
