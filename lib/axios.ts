@@ -17,7 +17,10 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    const url = error.config?.url || "";
+
+    // No redirigir si el error 401 viene de auth (login/register)
+    if (error.response?.status === 401 && !url.startsWith("/auth/")) {
       Cookies.remove("ct_token");
       localStorage.removeItem("ct_auth");
       window.location.href = "/Login";

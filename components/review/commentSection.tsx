@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { commentService, type Comment } from "@/services/comment.service";
 import { useAuthStore } from "@/store/authStore";
-import { showAuthRequiredToast } from "@/lib/authToasts";
+import { showAuthRequiredToast } from "@/lib/toasts/auth";
 import { timeAgo } from "@/lib/timeAgo";
 import Modal from "@/components/ui/modal";
 

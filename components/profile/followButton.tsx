@@ -2,11 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { followService } from "@/services/follow.service";
-import {
-  showFollowToast,
-  showFollowErrorToast,
-  showAuthRequiredToast,
-} from "@/lib/authToasts";
+import { showFollowToast, showFollowErrorToast } from "@/lib/toasts/actions";
+import { showAuthRequiredToast } from "@/lib/toasts/auth";
 import { useAuthStore } from "@/store/authStore";
 
 interface FollowButtonProps {

@@ -2,7 +2,7 @@
 
 import { communityService } from "@/services/community.service";
 import { useAuthStore } from "@/store/authStore";
-import { showAuthRequiredToast } from "@/lib/authToasts";
+import { showAuthRequiredToast } from "@/lib/toasts/auth";
 import { useState } from "react";
 
 interface Props {

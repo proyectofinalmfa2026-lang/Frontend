@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { likeService } from "@/services/like.service";
 import { useAuthStore } from "@/store/authStore";
-import { showAuthRequiredToast } from "@/lib/authToasts";
+import { showAuthRequiredToast } from "@/lib/toasts/auth";
 
 interface Props {
   reviewId: string;

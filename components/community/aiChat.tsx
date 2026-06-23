@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { communityService } from "@/services/community.service";
 import { useAuthStore } from "@/store/authStore";
-import { showAuthRequiredToast } from "@/lib/authToasts";
+import { showAuthRequiredToast } from "@/lib/toasts/auth";
 
 interface Message {
   role: "user" | "assistant";

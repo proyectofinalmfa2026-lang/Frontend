@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
 import { useAuthStore } from "@/store/authStore";
-import { showLogoutToast } from "@/lib/authToasts";
+import { showLogoutToast } from "@/lib/toasts/auth";
 
 import MobileMenu from "../layout/mobileMenu";
 import SearchDropdown from "../layout/searchDropdown";

@@ -11,15 +11,16 @@ import PasswordRules from "@/components/auth/passwordRules";
 import { authServices } from "@/services/auth.services";
 import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 import { useState } from "react";
 import { useEffect } from "react";
 import Link from "next/link";
-import { showRegisterToast } from "@/lib/authToasts";
+import { showRegisterToast, showRegisterErrorToast } from "@/lib/toasts/auth";
 
 export default function RegisterPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const {
     register,
@@ -46,7 +47,7 @@ export default function RegisterPage() {
       showRegisterToast();
       router.push("/");
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Error al registrarse");
+      showRegisterErrorToast(error.response?.data?.message);
     } finally {
       setIsLoading(false);
     }
@@ -169,24 +170,39 @@ export default function RegisterPage() {
             <div className="flex flex-col gap-1.5">
               <label className="text-sm text-[#7B7497]">Contraseña</label>
 
-              <input
-                {...register("password")}
-                type="password"
-                maxLength={15}
-                placeholder="Mínimo 8 caracteres"
-                className="
-                bg-[#02010F]
-                border border-[#22194A]
-                rounded-lg
-                px-4 py-3
-                text-sm
-                text-[#D6D0DC]
-                placeholder:text-[#7B7497]
-                focus:outline-none
-                focus:border-[#8C63C9]
-                transition-colors
-              "
-              />
+              <div className="relative">
+                <input
+                  {...register("password")}
+                  type={showPassword ? "text" : "password"}
+                  maxLength={15}
+                  placeholder="Mínimo 8 caracteres"
+                  className="
+                  bg-[#02010F]
+                  border border-[#22194A]
+                  rounded-lg
+                  px-4 py-3
+                  pr-10
+                  w-full
+                  text-sm
+                  text-[#D6D0DC]
+                  placeholder:text-[#7B7497]
+                  focus:outline-none
+                  focus:border-[#8C63C9]
+                  transition-colors
+                "
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#7B7497] hover:text-[#D6D0DC] transition-colors cursor-pointer"
+                >
+                  {showPassword ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><path d="M1 1l22 22"/></svg>
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  )}
+                </button>
+              </div>
               <PasswordRules password={password} />
 
               {errors.password && (
@@ -202,24 +218,39 @@ export default function RegisterPage() {
                 Confirmar contraseña
               </label>
 
-              <input
-                {...register("confirmPassword")}
-                type="password"
-                maxLength={15}
-                placeholder="Repite tu contraseña"
-                className="
-                bg-[#02010F]
-                border border-[#22194A]
-                rounded-lg
-                px-4 py-3
-                text-sm
-                text-[#D6D0DC]
-                placeholder:text-[#7B7497]
-                focus:outline-none
-                focus:border-[#8C63C9]
-                transition-colors
-              "
-              />
+              <div className="relative">
+                <input
+                  {...register("confirmPassword")}
+                  type={showConfirmPassword ? "text" : "password"}
+                  maxLength={15}
+                  placeholder="Repite tu contraseña"
+                  className="
+                  bg-[#02010F]
+                  border border-[#22194A]
+                  rounded-lg
+                  px-4 py-3
+                  pr-10
+                  w-full
+                  text-sm
+                  text-[#D6D0DC]
+                  placeholder:text-[#7B7497]
+                  focus:outline-none
+                  focus:border-[#8C63C9]
+                  transition-colors
+                "
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#7B7497] hover:text-[#D6D0DC] transition-colors cursor-pointer"
+                >
+                  {showConfirmPassword ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><path d="M1 1l22 22"/></svg>
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  )}
+                </button>
+              </div>
 
               {errors.confirmPassword && (
                 <span className="text-[#C13A82] text-xs">

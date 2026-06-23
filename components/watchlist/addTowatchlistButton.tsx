@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useWatchlistToggle } from "@/hooks/useWatchlist";
 import { useAuthStore } from "@/store/authStore";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { showWatchlistToast, showWatchlistErrorToast } from "@/lib/toasts/actions";
+import { showAuthRequiredToast } from "@/lib/toasts/auth";
 
 interface AddToWatchlistButtonProps {
   movieId: string;
@@ -21,30 +21,22 @@ export default function AddToWatchlistButton({
   const { isAuthenticated } = useAuthStore();
   const { inWatchlist, toggle } = useWatchlistToggle(movieId);
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
-
   const handleClick = async (e: React.MouseEvent) => {
-    e.preventDefault(); // evita navegación si está dentro de un <Link>
+    e.preventDefault();
     e.stopPropagation();
 
     if (!isAuthenticated) {
-      router.push("/Login");
+      showAuthRequiredToast("Necesitás una cuenta para usar la watchlist.");
       return;
     }
 
     setLoading(true);
     try {
+      const prev = inWatchlist;
       await toggle();
-      toast.success(
-        inWatchlist ? "Eliminada de tu watchlist" : "Añadida a tu watchlist",
-        { duration: 2000 },
-      );
-    } catch (err: unknown) {
-      const msg =
-        err instanceof Error
-          ? err.message
-          : "Algo salió mal. Intenta de nuevo.";
-      toast.error(msg);
+      showWatchlistToast(!prev);
+    } catch {
+      showWatchlistErrorToast();
     } finally {
       setLoading(false);
     }
