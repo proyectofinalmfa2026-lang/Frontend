@@ -14,7 +14,8 @@ function AuthSuccessContent() {
   const { setAuth } = useAuthStore();
 
   useEffect(() => {
-    const token = searchParams.get("token");
+    const hashParams = new URLSearchParams(window.location.hash.slice(1));
+    const token = hashParams.get("token") || searchParams.get("token");
 
     if (!token) {
       router.replace("/Login");
