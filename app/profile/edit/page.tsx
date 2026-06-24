@@ -9,6 +9,7 @@ import { useUserStore } from "@/store/userStore";
 import { userService } from "@/services/user.service";
 import { GENRES, MAX_FAVORITE_GENRES } from "@/constants/genres";
 import { AVAILABLE_BADGES, MAX_SELECTED_BADGES } from "@/constants/badges";
+import { FREE_AVATARS, PREMIUM_AVATARS } from "@/constants/avatars";
 import Loading from "@/components/ui/loading";
 
 const BADGE_STYLES: Record<string, string> = {
@@ -29,6 +30,7 @@ export default function EditProfilePage() {
 
   const [favoriteGenres, setFavoriteGenres] = useState<string[]>([]);
   const [selectedBadges, setSelectedBadges] = useState<string[]>([]);
+  const [selectedAvatar, setSelectedAvatar] = useState<string>("");
   const [saving, setSaving] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
@@ -38,9 +40,10 @@ export default function EditProfilePage() {
       return;
     }
     if (profile) {
-      setFavoriteGenres(profile.favoriteGenres);
-      setSelectedBadges(profile.badges.map((b) => b.id));
-    }
+  setFavoriteGenres(profile.favoriteGenres);
+  setSelectedBadges(profile.badges.map((b) => b.id));
+  setSelectedAvatar(profile.avatarUrl || "🎬");
+}
     setLoaded(true);
   }, [isAuthenticated, user, profile, router]);
 
@@ -76,16 +79,20 @@ export default function EditProfilePage() {
         color: b.color,
         icon: b.icon,
       }));
-      await userService.updateProfile({
-        favoriteGenres,
-        badges: badgeObjects,
-      });
+     await userService.updateProfile({
+  avatarUrl: selectedAvatar,
+  favoriteGenres,
+  badges: badgeObjects,
+});
       if (profile) {
         setProfile({
-          ...profile,
-          favoriteGenres,
-          badges: AVAILABLE_BADGES.filter((b) => selectedBadges.includes(b.id)),
-        });
+  ...profile,
+  avatarUrl: selectedAvatar,
+  favoriteGenres,
+  badges: AVAILABLE_BADGES.filter((b) =>
+    selectedBadges.includes(b.id),
+  ),
+});
       }
       toast.custom(
         () => (
@@ -147,6 +154,79 @@ export default function EditProfilePage() {
         </div>
 
         <div className="flex flex-col gap-6">
+
+          {/* AVATARES */}
+<section className="bg-[#0E0A2B] border border-[#22194A] rounded-xl p-5">
+  <p className="text-xs font-medium text-[#7B7497] uppercase tracking-wider mb-4">
+    Avatar
+  </p>
+
+  <p className="text-[11px] text-[#5C5470] font-medium mb-2">
+    🙌 Avatares libres
+  </p>
+
+  <div className="flex flex-wrap gap-3 mb-5">
+    {FREE_AVATARS.map((avatar) => (
+      <button
+        key={avatar}
+        onClick={() => setSelectedAvatar(avatar)}
+        className={`w-14 h-14 rounded-xl border text-2xl transition-all cursor-pointer ${
+          selectedAvatar === avatar
+            ? "border-[#C13A82] bg-[#C13A82]/10 shadow-[0_0_14px_rgba(193,58,130,0.2)]"
+            : "border-[#22194A] bg-[#02010F] hover:border-[#3D3460]"
+        }`}
+      >
+        {avatar}
+      </button>
+    ))}
+  </div>
+
+  <p className="text-[11px] text-[#5C5470] font-medium mb-2">
+    👑 Avatares Premium
+  </p>
+
+  <div className="flex flex-wrap gap-3">
+    {PREMIUM_AVATARS.map((avatar) => {
+      const isPremium = profile?.isPremium ?? false;
+      const locked = !isPremium;
+
+      return (
+        <button
+          key={avatar}
+          onClick={() => isPremium && setSelectedAvatar(avatar)}
+          disabled={locked}
+          className={`w-14 h-14 rounded-xl border text-2xl transition-all relative ${
+            locked
+              ? "border-[#22194A] bg-[#02010F] opacity-60 cursor-not-allowed"
+              : selectedAvatar === avatar
+                ? "border-[#C13A82] bg-[#C13A82]/10 shadow-[0_0_14px_rgba(193,58,130,0.2)] cursor-pointer"
+                : "border-[#22194A] bg-[#02010F] hover:border-[#3D3460] cursor-pointer"
+          }`}
+        >
+          {avatar}
+
+          {locked && (
+            <span className="absolute -top-1 -right-1 text-xs">
+              🔒
+            </span>
+          )}
+        </button>
+      );
+    })}
+  </div>
+
+  {!profile?.isPremium && (
+    <div className="mt-4 pt-4 border-t border-[#22194A] text-center">
+      <Link
+        href="/premium"
+        className="inline-flex items-center gap-1.5 text-xs text-[#C13A82] hover:text-[#A92F71] transition-colors font-medium animate-pulse"
+      >
+        👑 Suscribite a Premium para desbloquear avatares exclusivos
+      </Link>
+    </div>
+  )}
+</section>
+
           {/* GÉNEROS FAVORITOS */}
           <section className="bg-[#0E0A2B] border border-[#22194A] rounded-xl p-5">
             <div className="flex items-center justify-between mb-4">
