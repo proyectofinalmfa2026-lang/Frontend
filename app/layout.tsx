@@ -15,6 +15,7 @@ export default function RootLayout({
         <ScrollToTop />
         <Navbar />
         <Toaster richColors position="top-center" />
+        <Toaster position="bottom-right" />
         <main>{children}</main>
 
         <Footer />

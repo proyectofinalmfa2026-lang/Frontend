@@ -19,10 +19,14 @@ export default function ConversationView({ conversationId }: Props) {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   const msgs = messages[conversationId] || [];
+  const prevLenRef = useRef(0);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [msgs]);
+    if (msgs.length > prevLenRef.current && prevLenRef.current > 0) {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+    prevLenRef.current = msgs.length;
+  }, [msgs.length]);
 
   useEffect(() => {
     if (!user) {

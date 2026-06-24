@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
+import { socket } from "@/lib/sockets";
 import { useAuthStore } from "@/store/authStore";
 import { showLogoutToast } from "@/lib/toasts/auth";
+import { showNewMessageToast } from "@/lib/toasts/messages";
 
 import MobileMenu from "../layout/mobileMenu";
 import SearchDropdown from "../layout/searchDropdown";
@@ -31,6 +33,33 @@ export default function Navbar() {
     { href: "/community", label: "Comunidad" },
     { href: "/watchlist", label: "Mi Lista" },
   ];
+
+  useEffect(() => {
+    if (!user?.id) return;
+    socket.emit("join", user.id);
+
+    const handler = (msg: any) => {
+      const isOnConversation =
+        pathname === `/community/messages/${msg.conversation?.id}`;
+      if (isOnConversation) return;
+
+      const otherParticipant =
+        msg.conversation?.participant1?.id === user.id
+          ? msg.conversation?.participant2
+          : msg.conversation?.participant1;
+
+      showNewMessageToast(
+        otherParticipant?.name || "Alguien",
+        msg.content,
+        msg.conversation?.id,
+      );
+    };
+
+    socket.on("newMessage", handler);
+    return () => {
+      socket.off("newMessage", handler);
+    };
+  }, [user?.id, pathname]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-[#22194A] bg-[#02010F]/90 backdrop-blur-md">
