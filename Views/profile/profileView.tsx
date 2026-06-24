@@ -92,6 +92,7 @@ export default function ProfilePage({ username }: { username?: string }) {
   }
 
   const isOwnProfile = isAuthenticated && user?.username === targetUsername;
+  const isAdmin = isAuthenticated && user?.role === "admin";
 
   return (
     <main className="min-h-screen bg-[#02010F] py-8">
@@ -103,6 +104,7 @@ export default function ProfilePage({ username }: { username?: string }) {
               user={profile}
               isOwnProfile={isOwnProfile}
               currentUserId={isAuthenticated ? user?.id : undefined}
+              isAdmin={isAdmin}
               onFollowChange={fetchProfile}
               onRemoveGenre={isOwnProfile ? handleRemoveGenre : undefined}
               onRemoveBadge={isOwnProfile ? handleRemoveBadge : undefined}

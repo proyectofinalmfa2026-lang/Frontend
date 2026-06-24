@@ -77,6 +77,7 @@ interface ProfileSidebarProps {
   user: ProfileUser;
   isOwnProfile: boolean;
   currentUserId?: number;
+  isAdmin?: boolean;
   onFollowChange?: () => void;
   onRemoveGenre?: (genre: string) => void;
   onRemoveBadge?: (badgeId: string) => void;
@@ -86,6 +87,7 @@ export default function ProfileSidebar({
   user,
   isOwnProfile,
   currentUserId,
+  isAdmin = false,
   onFollowChange,
   onRemoveGenre,
   onRemoveBadge,
@@ -145,6 +147,14 @@ export default function ProfileSidebar({
               className="w-full flex items-center justify-center gap-1.5 border border-[#22194A] hover:border-[#3D3460] rounded-lg py-1.5 text-xs text-[#7B7497] hover:text-[#D6D0DC] transition-colors mt-1"
             >
               ✏️ Editar perfil
+            </Link>
+          )}
+          {isAdmin && (
+            <Link
+              href="/admin"
+              className="w-full flex items-center justify-center gap-1.5 bg-[#8C63C9]/10 border border-[#8C63C9]/30 hover:bg-[#8C63C9]/20 rounded-lg py-1.5 text-xs text-[#8C63C9] hover:text-[#9D74DA] transition-colors"
+            >
+              📊 Panel Admin
             </Link>
           )}
         </div>
@@ -210,7 +220,7 @@ export default function ProfileSidebar({
         </p>
         <div className="flex flex-wrap gap-1.5">
           {user.badges
-            .filter((b) => b.requiredTier !== "premium" || user.isPremium)
+            .filter((b) => b.requiredTier !== "premium" || user.isPremium || isAdmin)
             .map((badge) => (
               <span
                 key={badge.id}
@@ -236,7 +246,7 @@ export default function ProfileSidebar({
             </Link>
           )}
         </div>
-        {!user.isPremium && isOwnProfile && (
+        {!user.isPremium && isOwnProfile && !isAdmin && (
           <div className="mt-3 pt-3 border-t border-[#22194A]">
             <Link
               href="/premium"
