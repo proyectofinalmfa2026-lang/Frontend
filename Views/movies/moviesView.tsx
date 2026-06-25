@@ -16,7 +16,7 @@ export default function MoviesView() {
       .toLowerCase()
       .includes(search.toLowerCase());
     const matchesGenre =
-      selectedGenre === "Todos" || movie.genre === selectedGenre;
+      selectedGenre === "Todos" || movie.genre?.includes(selectedGenre);
 
     return matchesSearch && matchesGenre;
   });

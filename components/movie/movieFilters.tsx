@@ -1,6 +1,6 @@
 "use client";
 
-import { GENRES as genres } from "@/constants/genres";
+import { MOVIE_GENRES as genres } from "@/constants/movieGenres";
 
 interface MovieFiltersProps {
   search: string;
@@ -38,6 +38,19 @@ export default function MovieFilters({
       />
 
       <div className="flex flex-wrap gap-3 mt-5">
+        <button
+          onClick={() => setSelectedGenre("Todos")}
+          className={`
+            px-4 py-2 rounded-full border transition-all cursor-pointer
+            ${
+              selectedGenre === "Todos"
+                ? "bg-[#8C63C9] border-[#8C63C9] text-white"
+                : "bg-[#0E0A2B] border-[#22194A] text-[#7B7497]"
+            }
+          `}
+        >
+          Todos
+        </button>
         {genres.map((genre) => (
           <button
             key={genre}
