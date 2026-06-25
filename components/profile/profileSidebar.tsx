@@ -9,8 +9,10 @@ import { useAuthStore } from "@/store/authStore";
 const BADGE_COLORS: Record<Badge["color"], string> = {
   gold: "bg-[#F0A500]/15 border-[#F0A500]/40 text-[#F0A500] shadow-[0_0_10px_rgba(240,165,0,0.12)]",
   blue: "bg-[#3B82F6]/15 border-[#3B82F6]/40 text-[#3B82F6] shadow-[0_0_10px_rgba(59,130,246,0.12)]",
-  green: "bg-[#10B981]/15 border-[#10B981]/40 text-[#10B981] shadow-[0_0_10px_rgba(16,185,129,0.12)]",
-  purple: "bg-[#8B5CF6]/15 border-[#8B5CF6]/40 text-[#8B5CF6] shadow-[0_0_10px_rgba(139,92,246,0.12)]",
+  green:
+    "bg-[#10B981]/15 border-[#10B981]/40 text-[#10B981] shadow-[0_0_10px_rgba(16,185,129,0.12)]",
+  purple:
+    "bg-[#8B5CF6]/15 border-[#8B5CF6]/40 text-[#8B5CF6] shadow-[0_0_10px_rgba(139,92,246,0.12)]",
   rose: "bg-[#E11D48]/15 border-[#E11D48]/40 text-[#E11D48] shadow-[0_0_10px_rgba(225,29,72,0.12)]",
   cyan: "bg-[#06B6D4]/15 border-[#06B6D4]/40 text-[#06B6D4] shadow-[0_0_10px_rgba(6,182,212,0.12)]",
 };
@@ -38,38 +40,20 @@ function Avatar({
   isOwnProfile: boolean;
 }) {
   const initial = user?.name?.charAt(0)?.toUpperCase() ?? "?";
+  const isUrl = user.avatarUrl?.startsWith("http");
 
   return (
     <div className="relative w-18 h-18 shrink-0">
-      {user.avatarUrl ? (
+      {isUrl ? (
         <img
-          src={user.avatarUrl}
+          src={user.avatarUrl!}
           alt={user.name}
           className="w-full h-full rounded-full object-cover"
         />
       ) : (
         <div className="w-full h-full rounded-full bg-linear-to-br from-[#C13A82] to-[#8C63C9] flex items-center justify-center text-white text-2xl font-medium">
-          {initial}
+          {user.avatarUrl || initial}
         </div>
-      )}
-
-      {isOwnProfile && (
-        <button className="absolute inset-0 rounded-full bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="white"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
-            <circle cx="12" cy="13" r="3" />
-          </svg>
-        </button>
       )}
     </div>
   );
@@ -205,7 +189,18 @@ export default function ProfileSidebar({
                   onClick={() => onRemoveGenre(genre)}
                   className="ml-0.5 text-[#5C5470] hover:text-[#C13A82] transition-colors cursor-pointer"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                  >
+                    <path d="M18 6L6 18" />
+                    <path d="M6 6l12 12" />
+                  </svg>
                 </button>
               )}
             </span>
@@ -227,7 +222,9 @@ export default function ProfileSidebar({
         </p>
         <div className="flex flex-wrap gap-1.5">
           {user.badges
-            .filter((b) => b.requiredTier !== "premium" || user.isPremium || isAdmin)
+            .filter(
+              (b) => b.requiredTier !== "premium" || user.isPremium || isAdmin,
+            )
             .map((badge) => (
               <span
                 key={badge.id}
@@ -239,7 +236,18 @@ export default function ProfileSidebar({
                     onClick={() => onRemoveBadge(badge.id)}
                     className="ml-0.5 opacity-0 group-hover:opacity-100 text-inherit hover:brightness-150 transition-all cursor-pointer"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                    >
+                      <path d="M18 6L6 18" />
+                      <path d="M6 6l12 12" />
+                    </svg>
                   </button>
                 )}
               </span>

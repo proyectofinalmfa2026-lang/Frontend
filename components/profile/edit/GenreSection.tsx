@@ -27,7 +27,8 @@ export default function GenreSection({ favoriteGenres, onToggle }: Props) {
       <div className="flex flex-wrap gap-2">
         {GENRES.map((genre) => {
           const selected = favoriteGenres.includes(genre);
-          const atLimit = favoriteGenres.length >= MAX_FAVORITE_GENRES && !selected;
+          const atLimit =
+            favoriteGenres.length >= MAX_FAVORITE_GENRES && !selected;
           return (
             <button
               key={genre}

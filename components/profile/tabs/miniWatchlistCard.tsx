@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useWatchlistStore } from "@/store/watchlistStore";
 import { WatchlistItem } from "@/services/watchlist.service";
-import { toast } from "sonner";
+import { showWatchlistToast, showWatchlistErrorToast } from "@/lib/toasts/actions";
 
 interface MiniWatchlistCardProps {
   item: WatchlistItem;
@@ -18,7 +18,6 @@ export default function MiniWatchlistCard({
   const { remove } = useWatchlistStore();
   const [removing, setRemoving] = useState(false);
 
-  // El backend puede no incluir la relación movie en algunos endpoints
   if (!item?.movie) return null;
 
   const handleRemove = async (e: React.MouseEvent) => {
@@ -27,9 +26,9 @@ export default function MiniWatchlistCard({
     setRemoving(true);
     try {
       await remove(item.movie.id);
-      toast.success("Eliminada de la watchlist");
+      showWatchlistToast(false);
     } catch {
-      toast.error("No se pudo eliminar.");
+      showWatchlistErrorToast();
       setRemoving(false);
     }
   };

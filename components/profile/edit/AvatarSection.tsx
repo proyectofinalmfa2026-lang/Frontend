@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { FREE_AVATARS, PREMIUM_AVATARS } from "@/constants/avatars";
 
@@ -7,18 +8,81 @@ interface Props {
   selectedAvatar: string;
   isPremium: boolean;
   onSelect: (avatar: string) => void;
+  onUpload?: (file: File) => Promise<void>;
 }
 
 export default function AvatarSection({
   selectedAvatar,
   isPremium,
   onSelect,
+  onUpload,
 }: Props) {
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+
+  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !onUpload) return;
+    setUploading(true);
+    try {
+      await onUpload(file);
+    } finally {
+      setUploading(false);
+      if (fileRef.current) fileRef.current.value = "";
+    }
+  };
+
+  const isUrl = selectedAvatar?.startsWith("http");
+
   return (
     <section className="bg-[#0E0A2B] border border-[#22194A] rounded-xl p-5">
       <p className="text-xs font-medium text-[#7B7497] uppercase tracking-wider mb-4">
         Avatar
       </p>
+
+      {/* Foto subida */}
+      {isUrl && (
+        <div className="mb-5">
+          <p className="text-[11px] text-[#5C5470] font-medium mb-2">
+            📸 Foto actual
+          </p>
+          <div className="flex items-center gap-4">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={selectedAvatar}
+              alt="Avatar"
+              className="w-16 h-16 rounded-full object-cover border-2 border-[#C13A82]/50"
+            />
+            <button
+              onClick={() => onSelect("")}
+              className="text-xs text-[#C13A82] hover:text-[#A92F71] transition-colors cursor-pointer"
+            >
+              Quitar foto
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Subir foto */}
+      <div className="mb-5">
+        <p className="text-[11px] text-[#5C5470] font-medium mb-2">
+          📤 Subir foto
+        </p>
+        <input
+          ref={fileRef}
+          type="file"
+          accept="image/*"
+          onChange={handleFile}
+          className="hidden"
+        />
+        <button
+          onClick={() => fileRef.current?.click()}
+          disabled={uploading || !onUpload}
+          className="bg-[#0E0A2B] border border-[#22194A] hover:border-[#3D3460] disabled:opacity-50 text-xs text-[#D6D0DC] px-4 py-2 rounded-lg transition-colors cursor-pointer disabled:cursor-not-allowed"
+        >
+          {uploading ? "Subiendo..." : "Elegir archivo"}
+        </button>
+      </div>
 
       <p className="text-[11px] text-[#5C5470] font-medium mb-2">
         🙌 Avatares libres

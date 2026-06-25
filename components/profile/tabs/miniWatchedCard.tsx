@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useWatchedStore } from "@/store/watchedStore";
 import { WatchedItem } from "@/services/watched.service";
-import { toast } from "sonner";
+import { showWatchedToast, showWatchedErrorToast } from "@/lib/toasts/actions";
 
 interface MiniWatchedCardProps {
   item: WatchedItem;
@@ -26,9 +26,9 @@ export default function MiniWatchedCard({
     setRemoving(true);
     try {
       await remove(item.movie.id);
-      toast.success("Eliminada de películas vistas");
+      showWatchedToast(false);
     } catch {
-      toast.error("No se pudo eliminar.");
+      showWatchedErrorToast();
       setRemoving(false);
     }
   };

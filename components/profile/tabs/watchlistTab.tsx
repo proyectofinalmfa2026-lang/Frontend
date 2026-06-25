@@ -19,7 +19,7 @@ export default function WatchlistTab({ userId }: WatchlistTabProps) {
   if (!items.length) return <Empty isOwnProfile={isOwnProfile} />;
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-3">
       <p className="text-xs text-[#7B7497] mb-1">
         {items.length} {items.length === 1 ? "película" : "películas"}
       </p>
@@ -44,7 +44,7 @@ export default function WatchlistTab({ userId }: WatchlistTabProps) {
 
 function Skeleton() {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-3">
       {[...Array(4)].map((_, i) => (
         <div
           key={i}

@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useWatchlistStore } from "@/store/watchlistStore";
 import { WatchlistItem } from "@/services/watchlist.service";
-import { toast } from "sonner";
+import { showWatchlistToast, showWatchlistErrorToast } from "@/lib/toasts/actions";
 
 interface WatchlistCardProps {
   item: WatchlistItem;
@@ -20,9 +20,9 @@ export default function WatchlistCard({ item }: WatchlistCardProps) {
     setRemoving(true);
     try {
       await remove(item.movie.id);
-      toast.success("Eliminada de tu watchlist");
+      showWatchlistToast(false);
     } catch {
-      toast.error("No se pudo eliminar. Intenta de nuevo.");
+      showWatchlistErrorToast();
       setRemoving(false);
     }
   };

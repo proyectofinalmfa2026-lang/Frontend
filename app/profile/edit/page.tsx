@@ -64,14 +64,20 @@ export default function EditProfilePage() {
         : prev.length < 6 ? [...prev, badgeId] : prev,
     );
 
+  const handleUpload = async (file: File) => {
+    if (!token) return;
+    const res = await userService.uploadAvatar(file);
+    setSelectedAvatar(res.data.avatar);
+  };
+
   const handleSave = async () => {
     if (!token) return;
     setSaving(true);
     try {
       const badgeObjects = AVAILABLE_BADGES.filter((b) => selectedBadges.includes(b.id))
         .map((b) => ({ id: b.id, label: b.label, color: b.color, icon: b.icon }));
-      await userService.updateProfile({ avatarUrl: selectedAvatar, favoriteGenres, badges: badgeObjects });
-      if (profile) setProfile({ ...profile, avatarUrl: selectedAvatar, favoriteGenres, badges: AVAILABLE_BADGES.filter((b) => selectedBadges.includes(b.id)) });
+      await userService.updateProfile({ avatar: selectedAvatar || null, favoriteGenres, badges: badgeObjects });
+      if (profile) setProfile({ ...profile, avatarUrl: selectedAvatar || null, favoriteGenres, badges: AVAILABLE_BADGES.filter((b) => selectedBadges.includes(b.id)) });
       toast.custom(() => (
         <div className="flex items-center gap-3 bg-[#0E0A2B] border border-[#8C63C9] rounded-xl px-5 py-4 shadow-[0_0_30px_rgba(140,99,201,0.3)]">
           <span className="text-2xl">✅</span>
@@ -102,7 +108,7 @@ export default function EditProfilePage() {
         </div>
 
         <div className="flex flex-col gap-6">
-          <AvatarSection selectedAvatar={selectedAvatar} isPremium={profile?.isPremium ?? user?.isPremium ?? false} onSelect={setSelectedAvatar} />
+          <AvatarSection selectedAvatar={selectedAvatar} isPremium={profile?.isPremium ?? user?.isPremium ?? false} onSelect={setSelectedAvatar} onUpload={handleUpload} />
           <GenreSection favoriteGenres={favoriteGenres} onToggle={toggleGenre} />
           <BadgeSection selectedBadges={selectedBadges} isPremium={profile?.isPremium ?? user?.isPremium ?? false} onToggle={toggleBadge} />
 

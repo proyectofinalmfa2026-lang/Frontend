@@ -38,6 +38,6 @@ export const userService = {
   updateProfile: (data: {
     favoriteGenres?: string[];
     badges?: { id: string; label: string; color: string; icon: string; requiredTier?: "free" | "premium" }[];
-    avatarUrl?: string;
+    avatar?: string | null;
   }) => api.put("/auth/profile", data),
 };

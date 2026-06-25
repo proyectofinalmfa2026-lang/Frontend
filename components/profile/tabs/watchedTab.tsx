@@ -18,12 +18,12 @@ export default function WatchedTab({ userId }: WatchedTabProps) {
   if (!items.length) return <Empty isOwnProfile={isOwnProfile} />;
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-3">
       <p className="text-xs text-[#7B7497] mb-1">
         {items.length} {items.length === 1 ? "película" : "películas"}
       </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {items.slice(0, 6).map((item) => (
           <MiniWatchedCard key={item.id} item={item} canEdit={canEdit} />
         ))}
@@ -49,7 +49,7 @@ export default function WatchedTab({ userId }: WatchedTabProps) {
 
 function Skeleton() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
       {[...Array(4)].map((_, i) => (
         <div
           key={i}

@@ -119,7 +119,7 @@ export default function ProfilePage({ username }: { username?: string }) {
               onRemoveBadge={isOwnProfile ? handleRemoveBadge : undefined}
             />
           </div>
-          <div className="flex-1 min-w-0">
+          <div className="w-full flex-1 min-w-0">
             <ProfileFeed userId={profile.id} />
           </div>
         </div>

@@ -36,12 +36,7 @@ function useReviews(userId: number) {
 }
 
 // Filtros de score — permite filtrar reviews por rango
-const SCORE_FILTERS = [
-  { label: "Todas", min: 0 },
-  { label: "9+", min: 9 },
-  { label: "8+", min: 8 },
-  { label: "7+", min: 7 },
-];
+const SCORE_FILTERS = [{ label: "Todas", min: 0 }];
 
 // ─── Componente principal ─────────────────────────────────────────────────────
 
