@@ -37,9 +37,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <main className="min-h-screen bg-[#02010F] py-8">
       <div className="max-w-6xl mx-auto px-4">
-        <div className="flex flex-col md:flex-row gap-4 items-start">
+        <div className="flex flex-col md:flex-row gap-2 md:gap-4 items-start">
           <AdminSidebar />
-          <div className="flex-1 min-w-0">{children}</div>
+          <div className="flex-1 min-w-0 w-full">{children}</div>
         </div>
       </div>
     </main>

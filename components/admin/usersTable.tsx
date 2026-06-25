@@ -77,9 +77,9 @@ export default function UsersTable() {
   if (loading) return <p className="text-xs text-[#7B7497]">Cargando usuarios...</p>;
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-3 md:gap-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-medium text-[#D6D0DC]">Usuarios</h1>
+        <h1 className="text-lg md:text-xl font-medium text-[#D6D0DC]">Usuarios</h1>
         <span className="text-xs text-[#7B7497]">{users.length} usuarios</span>
       </div>
 
@@ -88,62 +88,103 @@ export default function UsersTable() {
           <p className="text-sm text-[#7B7497]">No hay usuarios registrados</p>
         </div>
       ) : (
-        <div className="bg-[#0E0A2B] border border-[#22194A] rounded-xl overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-[#22194A] text-[#7B7497] text-xs uppercase tracking-wider">
-                  <th className="text-left px-4 py-3 font-medium">Usuario</th>
-                  <th className="text-left px-4 py-3 font-medium hidden sm:table-cell">Email</th>
-                  <th className="text-center px-4 py-3 font-medium">Rol</th>
-                  <th className="text-center px-4 py-3 font-medium">Premium</th>
-                  <th className="text-right px-4 py-3 font-medium">Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((u) => (
-                  <tr key={u.id} className="border-b border-[#22194A] last:border-b-0 hover:bg-[#22194A]/30 transition-colors">
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-7 h-7 rounded-full bg-[#22194A] flex items-center justify-center text-xs text-[#7B7497] shrink-0">
-                          {u.username?.charAt(0)?.toUpperCase() ?? "?"}
-                        </div>
-                        <div>
-                          <p className="text-xs font-medium text-[#D6D0DC]">@{u.username}</p>
-                          <p className="text-[10px] text-[#5C5470]">ID {u.id}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-4 py-3 text-xs text-[#7B7497] hidden sm:table-cell">{u.email}</td>
-                    <td className="px-4 py-3 text-center">
-                      <span className={`inline-flex text-[10px] font-medium px-2 py-0.5 rounded-full ${
-                        u.role === "admin" ? "bg-[#8C63C9]/10 text-[#8C63C9]" : "bg-[#22194A]/50 text-[#7B7497]"
-                      }`}>
-                        {u.role}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-center text-xs">
-                      {u.isPremium ? "👑" : "—"}
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      <div className="flex items-center justify-end gap-1.5">
-                        <button onClick={() => openDetail(u)} className="px-2 py-1 text-[10px] text-[#7B7497] hover:text-[#D6D0DC] hover:bg-[#22194A]/50 rounded transition-colors cursor-pointer">
-                          👁 Detalle
-                        </button>
-                        <button onClick={() => toggleRole(u.id, u.role)} className="px-2 py-1 text-[10px] text-[#7B7497] hover:text-[#8C63C9] hover:bg-[#8C63C9]/10 rounded transition-colors cursor-pointer">
-                          {u.role === "admin" ? "👤 User" : "🔑 Admin"}
-                        </button>
-                        <button onClick={() => togglePremium(u.id, u.isPremium)} className="px-2 py-1 text-[10px] text-[#7B7497] hover:text-[#F0A500] hover:bg-[#F0A500]/10 rounded transition-colors cursor-pointer">
-                          {u.isPremium ? "👑 Quitar" : "👑 Dar"}
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        <>
+          {/* Mobile card view */}
+          <div className="flex flex-col gap-2 md:hidden">
+            {users.map((u) => (
+              <div key={u.id} className="bg-[#0E0A2B] border border-[#22194A] rounded-xl p-3">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-full bg-[#22194A] flex items-center justify-center text-xs text-[#7B7497] shrink-0">
+                      {u.username?.charAt(0)?.toUpperCase() ?? "?"}
+                    </div>
+                    <div>
+                      <p className="text-xs font-medium text-[#D6D0DC]">@{u.username}</p>
+                      <p className="text-[10px] text-[#5C5470]">{u.email}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    {u.isPremium && <span className="text-xs">👑</span>}
+                    <span className={`inline-flex text-[10px] font-medium px-2 py-0.5 rounded-full ${
+                      u.role === "admin" ? "bg-[#8C63C9]/10 text-[#8C63C9]" : "bg-[#22194A]/50 text-[#7B7497]"
+                    }`}>
+                      {u.role}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <button onClick={() => openDetail(u)} className="flex-1 text-center text-[10px] bg-[#22194A]/50 hover:bg-[#22194A] text-[#7B7497] hover:text-[#D6D0DC] rounded-lg py-1.5 transition-colors cursor-pointer">
+                    👁 Detalle
+                  </button>
+                  <button onClick={() => toggleRole(u.id, u.role)} className="flex-1 text-center text-[10px] bg-[#22194A]/50 hover:bg-[#8C63C9]/10 text-[#7B7497] hover:text-[#8C63C9] rounded-lg py-1.5 transition-colors cursor-pointer">
+                    {u.role === "admin" ? "👤 User" : "🔑 Admin"}
+                  </button>
+                  <button onClick={() => togglePremium(u.id, u.isPremium)} className="flex-1 text-center text-[10px] bg-[#22194A]/50 hover:bg-[#F0A500]/10 text-[#7B7497] hover:text-[#F0A500] rounded-lg py-1.5 transition-colors cursor-pointer">
+                    {u.isPremium ? "🚫 Premium" : "👑 Premium"}
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
-        </div>
+
+          {/* Desktop table view */}
+          <div className="hidden md:block bg-[#0E0A2B] border border-[#22194A] rounded-xl overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-[#22194A] text-[#7B7497] text-xs uppercase tracking-wider">
+                    <th className="text-left px-4 py-3 font-medium">Usuario</th>
+                    <th className="text-left px-4 py-3 font-medium">Email</th>
+                    <th className="text-center px-4 py-3 font-medium">Rol</th>
+                    <th className="text-center px-4 py-3 font-medium">Premium</th>
+                    <th className="text-right px-4 py-3 font-medium">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {users.map((u) => (
+                    <tr key={u.id} className="border-b border-[#22194A] last:border-b-0 hover:bg-[#22194A]/30 transition-colors">
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-7 h-7 rounded-full bg-[#22194A] flex items-center justify-center text-xs text-[#7B7497] shrink-0">
+                            {u.username?.charAt(0)?.toUpperCase() ?? "?"}
+                          </div>
+                          <div>
+                            <p className="text-xs font-medium text-[#D6D0DC]">@{u.username}</p>
+                            <p className="text-[10px] text-[#5C5470]">ID {u.id}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 text-xs text-[#7B7497]">{u.email}</td>
+                      <td className="px-4 py-3 text-center">
+                        <span className={`inline-flex text-[10px] font-medium px-2 py-0.5 rounded-full ${
+                          u.role === "admin" ? "bg-[#8C63C9]/10 text-[#8C63C9]" : "bg-[#22194A]/50 text-[#7B7497]"
+                        }`}>
+                          {u.role}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 text-center text-xs">
+                        {u.isPremium ? "👑" : "—"}
+                      </td>
+                      <td className="px-4 py-3 text-right">
+                        <div className="flex items-center justify-end gap-1.5">
+                          <button onClick={() => openDetail(u)} className="px-2 py-1 text-[10px] text-[#7B7497] hover:text-[#D6D0DC] hover:bg-[#22194A]/50 rounded transition-colors cursor-pointer">
+                            👁 Detalle
+                          </button>
+                          <button onClick={() => toggleRole(u.id, u.role)} className="px-2 py-1 text-[10px] text-[#7B7497] hover:text-[#8C63C9] hover:bg-[#8C63C9]/10 rounded transition-colors cursor-pointer">
+                            {u.role === "admin" ? "👤 User" : "🔑 Admin"}
+                          </button>
+                          <button onClick={() => togglePremium(u.id, u.isPremium)} className="px-2 py-1 text-[10px] text-[#7B7497] hover:text-[#F0A500] hover:bg-[#F0A500]/10 rounded transition-colors cursor-pointer">
+                            {u.isPremium ? "🚫 Quitar" : "👑 Dar"}
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </>
       )}
 
       <Modal open={!!selectedUser} onClose={() => { setSelectedUser(null); setDetail(null); }}>

@@ -37,7 +37,7 @@ export default function DashboardStats() {
     <div className="flex flex-col gap-6">
       <h1 className="text-xl font-medium text-[#D6D0DC]">Dashboard</h1>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
         {STAT_CARDS.map((card) => (
           <div
             key={card.key}

@@ -34,7 +34,12 @@ Social network for movies with real-time messaging, admin panel, premium subscri
 ### Admin Panel
 - Routes under `/admin/` with JwtAuthGuard + RolesGuard (ADMIN role)
 - Admin sidebar with nav items including Comentarios
-- `components/admin/commentsTable.tsx` — admin comments management with delete
+- All admin tables (`usersTable`, `moviesTable`, `commentsTable`, `reportsTable`) now fully responsive:
+  - **Mobile** (`< md`): card-based layout with all info and action buttons
+  - **Desktop** (`md+`): traditional table layout
+- `adminSidebar.tsx`: on mobile, nav becomes horizontal scrollable, header hidden
+- `dashboradStats.tsx`: grid `grid-cols-2 sm:grid-cols-4`
+- Admin layout: `children` div has `w-full` so content fills width on mobile; layout uses `gap-2 md:gap-4`
 
 ### Watched Movies Feature (mirrors watchlist pattern)
 - **Backend**: `Watched` entity, `WatchedModule`, `WatchedController` (`GET /watched/me`, `GET /watched/check/:movieId`, `POST /watched`, `DELETE /watched/:movieId`)

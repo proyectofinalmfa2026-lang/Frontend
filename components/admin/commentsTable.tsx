@@ -50,9 +50,9 @@ export default function CommentsTable() {
   if (loading) return <p className="text-xs text-[#7B7497]">Cargando comentarios...</p>;
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-3 md:gap-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-medium text-[#D6D0DC]">Comentarios</h1>
+        <h1 className="text-lg md:text-xl font-medium text-[#D6D0DC]">Comentarios</h1>
         <span className="text-xs text-[#7B7497]">{comments.length} comentarios</span>
       </div>
 
@@ -61,47 +61,75 @@ export default function CommentsTable() {
           <p className="text-sm text-[#7B7497]">No hay comentarios</p>
         </div>
       ) : (
-        <div className="bg-[#0E0A2B] border border-[#22194A] rounded-xl overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-[#22194A] text-[#7B7497] text-xs uppercase tracking-wider">
-                  <th className="text-left px-4 py-3 font-medium">Comentario</th>
-                  <th className="text-left px-4 py-3 font-medium hidden sm:table-cell">Usuario</th>
-                  <th className="text-center px-4 py-3 font-medium hidden md:table-cell">Review ★</th>
-                  <th className="text-right px-4 py-3 font-medium">Acción</th>
-                </tr>
-              </thead>
-              <tbody>
-                {comments.map((c) => (
-                  <tr key={c.id} className="border-b border-[#22194A] last:border-b-0 hover:bg-[#22194A]/30 transition-colors">
-                    <td className="px-4 py-3">
-                      <div className="min-w-0 max-w-xs">
-                        <p className="text-xs text-[#D6D0DC] line-clamp-2">{c.content}</p>
-                        <p className="text-[10px] text-[#5C5470] mt-0.5">{timeAgo(c.createdAt)}</p>
-                      </div>
-                    </td>
-                    <td className="px-4 py-3 text-xs text-[#7B7497] hidden sm:table-cell">
-                      @{c.user?.username ?? "?"}
-                    </td>
-                    <td className="px-4 py-3 text-center text-xs text-[#C13A82] hidden md:table-cell">
-                      ★ {c.review?.rating ?? "—"}
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      <button
-                        onClick={() => handleDelete(c.id)}
-                        disabled={deleting === c.id}
-                        className="px-2 py-1 text-[10px] text-[#C13A82] hover:bg-[#C13A82]/10 rounded transition-colors cursor-pointer disabled:opacity-50"
-                      >
-                        {deleting === c.id ? "..." : "🗑 Eliminar"}
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        <>
+          {/* Mobile card view */}
+          <div className="flex flex-col gap-2 md:hidden">
+            {comments.map((c) => (
+              <div key={c.id} className="bg-[#0E0A2B] border border-[#22194A] rounded-xl p-3">
+                <p className="text-xs text-[#D6D0DC] line-clamp-3 mb-1.5">{c.content}</p>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] text-[#7B7497]">@{c.user?.username ?? "?"}</span>
+                    {c.review && <span className="text-[10px] text-[#C13A82]">★ {c.review.rating}</span>}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] text-[#5C5470]">{timeAgo(c.createdAt)}</span>
+                    <button
+                      onClick={() => handleDelete(c.id)}
+                      disabled={deleting === c.id}
+                      className="px-2 py-1 text-[10px] text-[#C13A82] hover:bg-[#C13A82]/10 rounded transition-colors cursor-pointer disabled:opacity-50"
+                    >
+                      {deleting === c.id ? "..." : "🗑"}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
-        </div>
+
+          {/* Desktop table view */}
+          <div className="hidden md:block bg-[#0E0A2B] border border-[#22194A] rounded-xl overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-[#22194A] text-[#7B7497] text-xs uppercase tracking-wider">
+                    <th className="text-left px-4 py-3 font-medium">Comentario</th>
+                    <th className="text-left px-4 py-3 font-medium">Usuario</th>
+                    <th className="text-center px-4 py-3 font-medium">Review ★</th>
+                    <th className="text-right px-4 py-3 font-medium">Acción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {comments.map((c) => (
+                    <tr key={c.id} className="border-b border-[#22194A] last:border-b-0 hover:bg-[#22194A]/30 transition-colors">
+                      <td className="px-4 py-3">
+                        <div className="min-w-0 max-w-xs">
+                          <p className="text-xs text-[#D6D0DC] line-clamp-2">{c.content}</p>
+                          <p className="text-[10px] text-[#5C5470] mt-0.5">{timeAgo(c.createdAt)}</p>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 text-xs text-[#7B7497]">
+                        @{c.user?.username ?? "?"}
+                      </td>
+                      <td className="px-4 py-3 text-center text-xs text-[#C13A82]">
+                        ★ {c.review?.rating ?? "—"}
+                      </td>
+                      <td className="px-4 py-3 text-right">
+                        <button
+                          onClick={() => handleDelete(c.id)}
+                          disabled={deleting === c.id}
+                          className="px-2 py-1 text-[10px] text-[#C13A82] hover:bg-[#C13A82]/10 rounded transition-colors cursor-pointer disabled:opacity-50"
+                        >
+                          {deleting === c.id ? "..." : "🗑"}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </>
       )}
     </div>
   );
