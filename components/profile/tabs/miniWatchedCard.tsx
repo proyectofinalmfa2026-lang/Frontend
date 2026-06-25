@@ -37,13 +37,14 @@ export default function MiniWatchedCard({
     <Link href={`/movies/${item.movie.id}`}>
       <div
         className={`
-          group flex gap-3 bg-[#0E0A2B] border border-[#22194A] rounded-xl p-3
-          hover:border-[#3D3460] transition-all duration-200 cursor-pointer
+          group relative flex gap-2.5 bg-[#0E0A2B] border border-[#22194A] rounded-xl p-2.5
+          hover:border-emerald-500/40 hover:shadow-[0_0_16px_rgba(16,185,129,0.06)]
+          transition-all duration-200 cursor-pointer
           ${removing ? "opacity-40 pointer-events-none" : ""}
         `}
       >
         {/* Poster */}
-        <div className="w-10 h-14 shrink-0 rounded-lg overflow-hidden bg-[#02010F] border border-[#22194A]">
+        <div className="w-9 h-13 shrink-0 rounded-lg overflow-hidden bg-[#02010F] border border-[#22194A]">
           {item.movie.poster ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -99,8 +100,7 @@ export default function MiniWatchedCard({
             className="
               shrink-0 self-center w-6 h-6 rounded-lg
               flex items-center justify-center
-              text-[#3D3460] hover:text-[#C13A82]
-              opacity-0 group-hover:opacity-100
+              text-[#3D3460] hover:text-[#C13A82] hover:bg-[#C13A82]/10
               transition-all duration-200 cursor-pointer
             "
           >

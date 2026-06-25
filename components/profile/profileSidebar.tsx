@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { Badge, ProfileUser } from "@/types/profile.types";
 import FollowButton from "@/components/profile/followButton";
+import { useWatchedStore } from "@/store/watchedStore";
+import { useAuthStore } from "@/store/authStore";
 
 const BADGE_COLORS: Record<Badge["color"], string> = {
   gold: "bg-[#F0A500]/15 border-[#F0A500]/40 text-[#F0A500] shadow-[0_0_10px_rgba(240,165,0,0.12)]",
@@ -101,6 +103,11 @@ export default function ProfileSidebar({
     setFollowingCount(user.followingCount);
   }, [user.followersCount, user.followingCount]);
 
+  const { user: authUser } = useAuthStore();
+  const watchedIds = useWatchedStore((s) => s.movieIds);
+  const isOwn = authUser?.id === user.id;
+  const watchedCount = isOwn ? watchedIds.size : user.stats.moviesWatched;
+
   const handleFollowChange = (following: boolean) => {
     if (following) {
       setFollowersCount((c) => c + 1);
@@ -162,7 +169,7 @@ export default function ProfileSidebar({
         {/* Stats */}
         <div className="border-t border-[#22194A]">
           {[
-            { label: "Películas vistas", value: user.stats.moviesWatched },
+            { label: "Películas vistas", value: watchedCount },
             { label: "Reviews escritas", value: user.stats.reviews },
             { label: "Seguidores", value: followersCount },
             { label: "Siguiendo", value: followingCount },

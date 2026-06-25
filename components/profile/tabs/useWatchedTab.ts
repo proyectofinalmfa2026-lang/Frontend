@@ -18,27 +18,24 @@ export function useWatchedTab(userId: number) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    setLoading(true);
+    setError(null);
+
     if (isOwnProfile && storeItems.length > 0) {
       setItems(storeItems);
       setLoading(false);
       return;
     }
 
-    if (!isOwnProfile && !isAdmin) {
-      setLoading(false);
-      return;
-    }
+    const fetchFn = isOwnProfile
+      ? watchedService.getMyWatched()
+      : watchedService.getUserWatched(userId);
 
-    if (isOwnProfile) {
-      watchedService
-        .getMyWatched()
-        .then((res) => setItems(res.data.filter((i) => i.movie != null)))
-        .catch(() => setError("No se pudo cargar películas vistas."))
-        .finally(() => setLoading(false));
-    } else {
-      setLoading(false);
-    }
-  }, [userId, isOwnProfile, isAdmin, storeItems]);
+    fetchFn
+      .then((res) => setItems(res.data.filter((i) => i.movie != null)))
+      .catch(() => setError("No se pudo cargar películas vistas."))
+      .finally(() => setLoading(false));
+  }, [userId, isOwnProfile, storeItems]);
 
   useEffect(() => {
     if (isOwnProfile) setItems(storeItems.filter((i) => i.movie != null));

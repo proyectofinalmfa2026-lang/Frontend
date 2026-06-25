@@ -15,7 +15,6 @@ export default function WatchedTab({ userId }: WatchedTabProps) {
   if (loading) return <Skeleton />;
   if (error)
     return <p className="text-[#C13A82] text-sm text-center py-6">{error}</p>;
-  if (!canEdit && !items.length) return <Private />;
   if (!items.length) return <Empty isOwnProfile={isOwnProfile} />;
 
   return (
@@ -24,14 +23,22 @@ export default function WatchedTab({ userId }: WatchedTabProps) {
         {items.length} {items.length === 1 ? "película" : "películas"}
       </p>
 
-      {items.map((item) => (
-        <MiniWatchedCard key={item.id} item={item} canEdit={canEdit} />
-      ))}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        {items.slice(0, 6).map((item) => (
+          <MiniWatchedCard key={item.id} item={item} canEdit={canEdit} />
+        ))}
+      </div>
 
-      {isOwnProfile && (
+      {items.length > 6 && (
+        <p className="text-[10px] text-[#3D3460] text-center">
+          +{items.length - 6} más
+        </p>
+      )}
+
+      {isOwnProfile && items.length > 0 && (
         <Link
           href="/watched"
-          className="mt-2 block text-center text-xs text-[#7B7497] hover:text-[#8C63C9] transition-colors py-2"
+          className="mt-1 block text-center text-xs text-[#7B7497] hover:text-[#8C63C9] transition-colors py-2"
         >
           Ver todas las vistas →
         </Link>
@@ -42,22 +49,13 @@ export default function WatchedTab({ userId }: WatchedTabProps) {
 
 function Skeleton() {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
       {[...Array(4)].map((_, i) => (
         <div
           key={i}
           className="h-16 rounded-xl bg-[#0E0A2B] border border-[#22194A] animate-pulse"
         />
       ))}
-    </div>
-  );
-}
-
-function Private() {
-  return (
-    <div className="text-center py-10">
-      <p className="text-[#3D3460] text-3xl mb-3">🔒</p>
-      <p className="text-[#7B7497] text-sm">Esta lista es privada.</p>
     </div>
   );
 }

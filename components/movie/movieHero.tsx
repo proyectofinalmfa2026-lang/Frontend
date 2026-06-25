@@ -3,6 +3,7 @@
 import { Movie } from "@/types/movie.types";
 import Link from "next/link";
 import AddToWatchlistButton from "@/components/watchlist/addTowatchlistButton";
+import AddToWatchedButton from "@/components/watched/addToWatchedButton";
 
 interface MovieHeroProps {
   movie: Movie;
@@ -81,6 +82,7 @@ export default function MovieHero({ movie }: MovieHeroProps) {
             {/* Actions */}
             <div className="flex flex-wrap gap-3 mt-8">
               <AddToWatchlistButton movieId={movie.id} variant="full" />
+              <AddToWatchedButton movieId={movie.id} variant="full" />
             </div>
           </div>
 

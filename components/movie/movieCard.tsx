@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Movie } from "@/types/movie.types";
 import AddToWatchlistButton from "@/components/watchlist/addTowatchlistButton";
+import AddToWatchedButton from "@/components/watched/addToWatchedButton";
 
 interface MovieCardProps {
   movie: Movie;
@@ -45,8 +46,9 @@ export default function MovieCard({ movie }: MovieCardProps) {
           </svg>
         )}
 
-        {/* Botón watchlist — esquina superior derecha */}
-        <div className="absolute top-2 right-2">
+        {/* Botones watchlist y watched */}
+        <div className="absolute top-2 right-2 flex gap-1.5">
+          <AddToWatchedButton movieId={movie.id} variant="icon" />
           <AddToWatchlistButton movieId={movie.id} variant="icon" />
         </div>
       </div>
