@@ -9,27 +9,28 @@ import {
   cancelSubscription,
 } from "@/services/premium.services";
 import { useRouter } from "next/navigation";
+import { authServices } from "@/services/auth.services";
 import PremiumHeader from "@/components/premium/premiumHeader";
 import PricingCard from "@/components/premium/pricingCard";
 import PaymentMethods from "@/components/premium/paymentMethods";
 import StripePaymentModal from "@/components/premium/stripePaymentModal";
 
 const FREE_FEATURES = [
-  "Perfil público",
   "Reviews ilimitadas",
-  "Ver reviews de la comunidad",
-  "Anuncios en la plataforma",
+  "Comunidad: seguir, likes, comentarios",
+  "8 avatares gratis",
+  "Chat con IA de CineSphere",
 ];
 
 const PREMIUM_FEATURES = [
-  "Sin anuncios",
-  "Recomendaciones con IA",
-  "Badges exclusivos",
-  "Acceso anticipado a nuevas funciones",
+  "8 avatares exclusivos",
+  "10 badges premium exclusivos",
+  "Corona 👑 Premium en tu perfil",
+  "Estadísticas avanzadas",
 ];
 
 export default function PremiumPage() {
-  const { token, isAuthenticated } = useAuthStore();
+  const { user, token, isAuthenticated, setUser } = useAuthStore();
   const router = useRouter();
 
   const [subscription, setSubscription] = useState<any>(null);
@@ -45,9 +46,20 @@ export default function PremiumPage() {
 
   useEffect(() => {
     if (!token) return;
-    getMySubscription(token)
-      .then((data) => setSubscription(data))
-      .catch(() => setSubscription(null));
+    const refresh = () => {
+      getMySubscription(token)
+        .then((data) => setSubscription(data))
+        .catch(() => setSubscription(null));
+      authServices
+        .me()
+        .then((res) => {
+          if (res.data) setUser(res.data);
+        })
+        .catch(() => {});
+    };
+    refresh();
+    addEventListener("focus", refresh);
+    return () => removeEventListener("focus", refresh);
   }, [token]);
 
   const handleSubscribe = async () => {
@@ -60,8 +72,9 @@ export default function PremiumPage() {
       setError(null);
       const { initPoint } = await subscribeWithMercadoPago(token);
       window.location.href = initPoint;
-    } catch {
-      setError("Hubo un error al iniciar el pago. Intentá de nuevo.");
+    } catch (err: any) {
+      const msg = err?.response?.data?.message;
+      setError(msg || "Hubo un error al iniciar el pago. Intentá de nuevo.");
     } finally {
       setLoading(false);
     }
@@ -104,7 +117,7 @@ export default function PremiumPage() {
     }
   };
 
-  const isActive = subscription?.status === "active";
+  const isActive = user?.isPremium === true;
 
   return (
     <main className="min-h-screen bg-[#02010F] py-12">
@@ -116,13 +129,19 @@ export default function PremiumPage() {
             <p className="text-[#D6D0DC] text-sm font-medium">
               Ya tienes Premium activo
             </p>
-            <button
-              onClick={handleCancel}
-              disabled={loadingCancel}
-              className="mt-2 text-xs text-[#C13A82] hover:text-[#A92F71] transition-colors cursor-pointer disabled:opacity-50"
-            >
-              {loadingCancel ? "Cancelando..." : "Cancelar suscripción"}
-            </button>
+            {subscription?.status === "active" ? (
+              <button
+                onClick={handleCancel}
+                disabled={loadingCancel}
+                className="mt-2 text-xs text-[#C13A82] hover:text-[#A92F71] transition-colors cursor-pointer disabled:opacity-50"
+              >
+                {loadingCancel ? "Cancelando..." : "Cancelar suscripción"}
+              </button>
+            ) : (
+              <p className="mt-2 text-[10px] text-[#7B7497]">
+                Gestionado por administrador
+              </p>
+            )}
           </div>
         )}
 

@@ -10,6 +10,7 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import { useAuthStore } from "@/store/authStore";
+import { authServices } from "@/services/auth.services";
 import { confirmStripeSubscription } from "@/services/premium.services";
 
 const stripePromise = loadStripe(
@@ -23,7 +24,7 @@ interface Props {
 }
 
 function PaymentForm({ clientSecret, subscriptionId, onClose }: Props) {
-  const { token } = useAuthStore();
+  const { token, setUser } = useAuthStore();
   const stripe = useStripe();
   const elements = useElements();
   const [error, setError] = useState<string | null>(null);
@@ -56,6 +57,9 @@ function PaymentForm({ clientSecret, subscriptionId, onClose }: Props) {
 
     try {
       await confirmStripeSubscription(token, subscriptionId);
+      authServices.me().then((res) => {
+        if (res.data) setUser(res.data);
+      }).catch(() => {});
       setState("success");
     } catch {
       setMessage(

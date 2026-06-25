@@ -35,61 +35,103 @@ function ResultContent() {
   return (
     <main className="min-h-screen bg-[#02010F] flex items-center justify-center">
       <div className="bg-[#0E0A2B] border border-[#22194A] rounded-2xl p-8 max-w-md mx-4 text-center">
-
         {confirming ? (
           <>
             <div className="w-16 h-16 rounded-full bg-[#C13A82]/20 flex items-center justify-center mx-auto mb-4 animate-pulse">
-              <svg className="w-8 h-8 text-[#C13A82]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                className="w-8 h-8 text-[#C13A82]"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
             </div>
             <h1 className="text-xl font-semibold text-[#D6D0DC] mb-2">
               Activando tu suscripción...
             </h1>
             <p className="text-sm text-[#7B7497] mb-6">
-              Esperá un momento mientras confirmamos tu pago.
+              Espera un momento mientras confirmamos tu pago.
             </p>
           </>
         ) : isSuccess && !confirmError ? (
           <>
             <div className="w-16 h-16 rounded-full bg-[#63C995]/20 flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-[#63C995]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              <svg
+                className="w-8 h-8 text-[#63C995]"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="3"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M5 13l4 4L19 7"
+                />
               </svg>
             </div>
             <h1 className="text-xl font-semibold text-[#D6D0DC] mb-2">
-              ¡Ya sos Premium!
+              ¡Ya eres Premium!
             </h1>
             <p className="text-sm text-[#7B7497] mb-6">
-              Tu suscripción a CineSphere Premium está activa. Disfrutá de todos los beneficios.
+              Tu suscripción a CineSphere Premium está activa. Disfruta de todos
+              los beneficios.
             </p>
           </>
         ) : isPending ? (
           <>
             <div className="w-16 h-16 rounded-full bg-[#F0A500]/20 flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-[#F0A500]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                className="w-8 h-8 text-[#F0A500]"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
             </div>
             <h1 className="text-xl font-semibold text-[#D6D0DC] mb-2">
               Pago pendiente
             </h1>
             <p className="text-sm text-[#7B7497] mb-6">
-              Estamos esperando la confirmación del pago. Te avisaremos cuando esté listo.
+              Estamos esperando la confirmación del pago. Te avisaremos cuando
+              esté listo.
             </p>
           </>
         ) : (
           <>
             <div className="w-16 h-16 rounded-full bg-[#C13A82]/20 flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-[#C13A82]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              <svg
+                className="w-8 h-8 text-[#C13A82]"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </div>
             <h1 className="text-xl font-semibold text-[#D6D0DC] mb-2">
               Error en el pago
             </h1>
             <p className="text-sm text-[#7B7497] mb-6">
-              Algo salió mal con el pago. Podés intentarlo de nuevo desde la página de premium.
+              Algo salió mal con el pago. Puedes intentarlo de nuevo desde la
+              página de premium.
             </p>
           </>
         )}

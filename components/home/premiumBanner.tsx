@@ -4,11 +4,11 @@
 import Link from "next/link";
 
 const BENEFITS = [
-  "Sin anuncios en toda la plataforma",
-  "Recomendaciones personalizadas con IA",
-  "Estadísticas avanzadas de tu perfil",
-  "Listas ilimitadas y watchlists privadas",
-  "Acceso anticipado a nuevas funciones",
+  "Avatares exclusivos y badges premium",
+  "Anclar reviews destacadas a tu perfil",
+  "Corona 👑 Premium en tu perfil",
+  "Estadísticas avanzadas",
+  "8 avatares gratis incluidos",
 ];
 
 export default function PremiumBanner() {
