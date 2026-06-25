@@ -7,12 +7,14 @@ import { useState } from "react";
 import ActivityTab from "@/components/profile/tabs/activityTab";
 import ReviewsTab from "@/components/profile/tabs/reviewsTab";
 import WatchlistTab from "@/components/profile/tabs/watchlistTab";
+import WatchedTab from "@/components/profile/tabs/watchedTab";
 import StatsTab from "@/components/profile/tabs/statsTab";
 
 const TABS = [
   { id: "activity", label: "Actividad" },
   { id: "reviews", label: "Reviews" },
   { id: "watchlist", label: "Watchlist" },
+  { id: "watched", label: "Vistas" },
   { id: "stats", label: "Stats" },
 ] as const;
 
@@ -35,6 +37,8 @@ export default function ProfileFeed({ userId }: ProfileFeedProps) {
         return <ReviewsTab userId={userId} />;
       case "watchlist":
         return <WatchlistTab userId={userId} />;
+      case "watched":
+        return <WatchedTab userId={userId} />;
       case "stats":
         return <StatsTab userId={userId} />;
       default:

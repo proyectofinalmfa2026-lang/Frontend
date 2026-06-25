@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import { useUserStore } from "@/store/userStore";
 import { userService } from "@/services/user.service";
+import { authServices } from "@/services/auth.services";
 import { mapBackendUserToProfile } from "@/lib/mappers";
 import { type ProfileUser } from "@/types/profile.types";
 import { AVAILABLE_BADGES } from "@/constants/badges";
@@ -15,7 +16,7 @@ import { toast } from "sonner";
 
 export default function ProfilePage({ username }: { username?: string }) {
   const router = useRouter();
-  const { user, isAuthenticated, token } = useAuthStore();
+  const { user, isAuthenticated, token, setUser } = useAuthStore();
   const { setProfile: setStoredProfile } = useUserStore();
   const [profile, setProfile] = useState<ProfileUser | null>(null);
   const [loading, setLoading] = useState(true);
@@ -39,6 +40,14 @@ export default function ProfilePage({ username }: { username?: string }) {
   useEffect(() => {
     fetchProfile();
   }, [fetchProfile]);
+
+  useEffect(() => {
+    if (!isAuthenticated || !user) return;
+    if (targetUsername !== user.username) return;
+    authServices.me().then((res) => {
+      if (res.data) setUser(res.data);
+    }).catch(() => {});
+  }, [isAuthenticated, user, targetUsername, setUser]);
 
   const handleRemoveGenre = async (genre: string) => {
     if (!profile || !token) return;

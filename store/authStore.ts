@@ -9,6 +9,7 @@ interface User {
   username: string;
   role: "user" | "admin";
   avatar?: string;
+  isPremium?: boolean;
 }
 
 interface AuthStore {

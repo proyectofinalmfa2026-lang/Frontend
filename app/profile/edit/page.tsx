@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
 import { useAuthStore } from "@/store/authStore";
 import { useUserStore } from "@/store/userStore";
 import { userService } from "@/services/user.service";
+import { authServices } from "@/services/auth.services";
+import { mapBackendUserToProfile } from "@/lib/mappers";
 import { AVAILABLE_BADGES } from "@/constants/badges";
 import Loading from "@/components/ui/loading";
 import AvatarSection from "@/components/profile/edit/AvatarSection";
@@ -15,8 +17,9 @@ import BadgeSection from "@/components/profile/edit/BadgeSection";
 
 export default function EditProfilePage() {
   const router = useRouter();
-  const { user, isAuthenticated, token } = useAuthStore();
-  const { profile, setProfile, isLoading } = useUserStore();
+  const { user, isAuthenticated, token, setUser } = useAuthStore();
+  const { profile, setProfile } = useUserStore();
+  const initRef = useRef(false);
 
   const [favoriteGenres, setFavoriteGenres] = useState<string[]>([]);
   const [selectedBadges, setSelectedBadges] = useState<string[]>([]);
@@ -26,13 +29,28 @@ export default function EditProfilePage() {
 
   useEffect(() => {
     if (!isAuthenticated || !user) { router.push("/Login"); return; }
+    if (initRef.current) return;
+    initRef.current = true;
+
+    authServices.me().then((res) => {
+      if (res.data) setUser(res.data);
+    }).catch(() => {});
+
     if (profile) {
       setFavoriteGenres(profile.favoriteGenres);
       setSelectedBadges(profile.badges.map((b) => b.id));
       setSelectedAvatar(profile.avatarUrl || "🎬");
+      setLoaded(true);
+    } else {
+      userService.getByUsername(user.username).then((data) => {
+        const p = mapBackendUserToProfile(data);
+        setProfile(p);
+        setFavoriteGenres(p.favoriteGenres);
+        setSelectedBadges(p.badges.map((b) => b.id));
+        setSelectedAvatar(p.avatarUrl || "🎬");
+      }).catch(() => {}).finally(() => setLoaded(true));
     }
-    setLoaded(true);
-  }, [isAuthenticated, user, profile, router]);
+  }, [isAuthenticated, user, router]);
 
   const toggleGenre = (genre: string) =>
     setFavoriteGenres((prev) =>
@@ -71,7 +89,7 @@ export default function EditProfilePage() {
     } finally { setSaving(false); }
   };
 
-  if (!loaded || isLoading) return <Loading />;
+  if (!loaded) return <Loading />;
 
   return (
     <main className="min-h-screen bg-[#02010F] py-8">
@@ -84,9 +102,9 @@ export default function EditProfilePage() {
         </div>
 
         <div className="flex flex-col gap-6">
-          <AvatarSection selectedAvatar={selectedAvatar} isPremium={profile?.isPremium ?? false} onSelect={setSelectedAvatar} />
+          <AvatarSection selectedAvatar={selectedAvatar} isPremium={profile?.isPremium ?? user?.isPremium ?? false} onSelect={setSelectedAvatar} />
           <GenreSection favoriteGenres={favoriteGenres} onToggle={toggleGenre} />
-          <BadgeSection selectedBadges={selectedBadges} isPremium={profile?.isPremium ?? false} onToggle={toggleBadge} />
+          <BadgeSection selectedBadges={selectedBadges} isPremium={profile?.isPremium ?? user?.isPremium ?? false} onToggle={toggleBadge} />
 
           <div className="flex items-center gap-3 justify-end">
             <Link href={`/profile/${user?.username}`} className="text-xs text-[#7B7497] hover:text-[#D6D0DC] transition-colors px-4 py-2">Cancelar</Link>

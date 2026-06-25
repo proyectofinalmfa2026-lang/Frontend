@@ -14,11 +14,13 @@ import SearchDropdown from "../layout/searchDropdown";
 import NavbarDesktop from "./navbarDesktop";
 import NavbarMobile from "./navbarMobile";
 import { useWatchlist } from "@/hooks/useWatchlist";
+import { useWatched } from "@/hooks/useWatched";
 
 export default function Navbar() {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   useWatchlist();
+  useWatched();
   const pathname = usePathname();
   const { user, logout } = useAuthStore();
   const handleLogout = useCallback(() => {
@@ -32,6 +34,7 @@ export default function Navbar() {
     { href: "/movies", label: "Películas" },
     { href: "/community", label: "Comunidad" },
     { href: "/watchlist", label: "Mi Lista" },
+    { href: "/watched", label: "Vistas" },
   ];
 
   useEffect(() => {

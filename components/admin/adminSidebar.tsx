@@ -8,6 +8,7 @@ const NAV_ITEMS = [
   { href: "/admin/users", label: "Usuarios", icon: "👥" },
   { href: "/admin/movies", label: "Películas", icon: "🎬" },
   { href: "/admin/reviews", label: "Reviews", icon: "💬" },
+  { href: "/admin/comments", label: "Comentarios", icon: "🗨️" },
 ];
 
 export default function AdminSidebar() {

@@ -67,3 +67,22 @@ export const showWatchlistToast = (added: boolean) => {
 
 export const showWatchlistErrorToast = () =>
   toastError("No se pudo actualizar", "Intentá de nuevo más tarde.");
+
+const watchedMessages = [
+  { icon: "✅", title: "Marcada como vista", sub: "Película agregada a tu historial." },
+  { icon: "🎬", title: "¡Ya la viste!", sub: "Se guardó en tus películas vistas." },
+  { icon: "🍿", title: "¡Otra más!", sub: "Ya viste esta película." },
+];
+
+const watchedRemoveMessages = [
+  { icon: "👋", title: "Eliminada de vistas", sub: "Ya no está en tu historial." },
+  { icon: "🗑️", title: "Vista removida.", sub: "Película quitada de tu lista." },
+];
+
+export const showWatchedToast = (added: boolean) => {
+  const msgs = added ? watchedMessages : watchedRemoveMessages;
+  toastSuccess(msgs[Math.floor(Math.random() * msgs.length)]);
+};
+
+export const showWatchedErrorToast = () =>
+  toastError("No se pudo actualizar", "Intentá de nuevo más tarde.");
