@@ -1,0 +1,38 @@
+import TeamCard from "@/components/team/teamCard";
+
+const TEAM = [
+  {
+    name: "Alejandro Mirena",
+    role: "Full Stack Developer",
+    github: "https://github.com/Alejandro-Mirena",
+    linkedin: "https://www.linkedin.com/in/alejandro-mirena-hidalgo/?locale=es-ES",
+  },
+];
+
+export default function TeamPage() {
+  return (
+    <main className="min-h-screen bg-[#02010F] py-16">
+      <div className="max-w-4xl mx-auto px-4">
+        <div className="text-center mb-12">
+          <p className="text-xs text-[#5C5470] uppercase tracking-[0.2em] font-medium">
+            Conoce al equipo
+          </p>
+          <h1 className="text-2xl md:text-3xl font-bold text-[#D6D0DC] mt-3">
+            Creadores de CineSphere
+          </h1>
+          <div className="w-16 h-0.5 bg-gradient-to-r from-[#C13A82] to-[#8C63C9] mx-auto mt-4" />
+          <p className="text-sm text-[#7B7497] mt-4 max-w-lg mx-auto">
+            Detrás de cada película hay un equipo apasionado por el cine y la
+            tecnología.
+          </p>
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-6">
+          {TEAM.map((member) => (
+            <TeamCard key={member.name} {...member} />
+          ))}
+        </div>
+      </div>
+    </main>
+  );
+}
