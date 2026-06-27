@@ -7,14 +7,17 @@ const TEAM = [
     github: "https://github.com/Alejandro-Mirena",
     linkedin: "https://www.linkedin.com/in/alejandro-mirena-hidalgo/?locale=es-ES",
     image: "https://github.com/Alejandro-Mirena.png",
+    location: "Lima, Perú",
+    skills: ["React", "Next.js", "NestJS", "TypeScript", "PostgreSQL"],
+    githubStats: { repos: 7, followers: 0 },
   },
 ];
 
 export default function TeamPage() {
   return (
     <main className="min-h-screen bg-[#02010F] py-16">
-      <div className="max-w-4xl mx-auto px-4">
-        <div className="text-center mb-12">
+      <div className="max-w-5xl mx-auto px-4">
+        <div className="text-center mb-14">
           <p className="text-xs text-[#5C5470] uppercase tracking-[0.2em] font-medium">
             Conoce al equipo
           </p>
@@ -28,7 +31,7 @@ export default function TeamPage() {
           </p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-6">
+        <div className="flex flex-wrap justify-center gap-8">
           {TEAM.map((member) => (
             <TeamCard key={member.name} {...member} />
           ))}
