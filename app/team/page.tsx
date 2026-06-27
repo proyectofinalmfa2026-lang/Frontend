@@ -9,6 +9,7 @@ const TEAM = [
       "https://www.linkedin.com/in/alejandro-mirena-hidalgo/?locale=es-ES",
     image: "https://github.com/Alejandro-Mirena.png",
     location: "Lima, Perú",
+    bio: "Desarrollador Full Stack apasionado por construir experiencias digitales únicas y funcionales.",
     skills: ["React", "Next.js", "NestJS", "TypeScript", "PostgreSQL"],
     githubStats: { repos: 7, followers: 0 },
   },
