@@ -6,6 +6,7 @@ const TEAM = [
     role: "Full Stack Developer",
     github: "https://github.com/Alejandro-Mirena",
     linkedin: "https://www.linkedin.com/in/alejandro-mirena-hidalgo/?locale=es-ES",
+    image: "https://github.com/Alejandro-Mirena.png",
   },
 ];
 
