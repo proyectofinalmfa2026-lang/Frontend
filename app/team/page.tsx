@@ -24,6 +24,17 @@ const TEAM = [
     skills: ["React", "Next.js", "NestJS", "TypeScript", "PostgreSQL"],
     githubStats: { repos: 3, followers: 0 },
   },
+  {
+    name: "Felipe Paez",
+    role: "Full Stack Developer",
+    github: "https://github.com/fepaez",
+    linkedin: "https://www.linkedin.com/in/felipe-paez-ibaceta/",
+    image: "https://github.com/fepaez.png",
+    location: "Chile",
+    bio: "Full Stack Developer con enfoque en Backend.",
+    skills: ["React", "Next.js", "NestJS", "TypeScript", "PostgreSQL"],
+    githubStats: { repos: 5, followers: 0 },
+  },
 ];
 
 export default function TeamPage() {
