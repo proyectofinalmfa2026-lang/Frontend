@@ -9,8 +9,8 @@ const TEAM = [
       "https://www.linkedin.com/in/alejandro-mirena-hidalgo/?locale=es-ES",
     image: "https://github.com/Alejandro-Mirena.png",
     location: "Lima, Perú",
-    bio: "Desarrollador Full Stack apasionado por construir experiencias digitales únicas y funcionales.",
-    skills: ["React", "Next.js", "NestJS", "TypeScript", "PostgreSQL"],
+    bio: "Full Stack Developer apasionado por convertir ideas en productos funcionales. Disfruta trabajar en todo el stack, desde APIs limpias hasta interfaces responsive.",
+    skills: ["Next.js", "React", "TypeScript", "Tailwind", "Node.js", "Express", "PostgreSQL"],
     githubStats: { repos: 7, followers: 0 },
   },
   {
@@ -20,8 +20,8 @@ const TEAM = [
     linkedin: "https://www.linkedin.com/in/matiasrodriguez-/",
     image: "https://github.com/MorningstarDev.png",
     location: "Argentina",
-    bio: "Desarrollador Full Stack apasionado por crear aplicaciones web modernas, escalables y centradas en la experiencia del usuario.",
-    skills: ["React", "Next.js", "NestJS", "TypeScript", "PostgreSQL"],
+    bio: "Full Stack Developer apasionado por crear aplicaciones modernas, escalables y con excelente experiencia de usuario. Especializado en React, NestJS y TypeScript.",
+    skills: ["React", "NestJS", "TypeScript", "JavaScript", "PostgreSQL", "WebSockets"],
     githubStats: { repos: 3, followers: 0 },
   },
   {
@@ -31,8 +31,8 @@ const TEAM = [
     linkedin: "https://www.linkedin.com/in/felipe-paez-ibaceta/",
     image: "https://github.com/fepaez.png",
     location: "Chile",
-    bio: "Full Stack Developer con enfoque en Backend.",
-    skills: ["React", "Next.js", "NestJS", "TypeScript", "PostgreSQL"],
+    bio: "Full Stack Developer con enfoque en Backend. Titulado en Ingeniería en Administración y egresado de Henry. Disfruta diseñar APIs REST y resolver problemas técnicos.",
+    skills: ["NestJS", "Node.js", "TypeScript", "PostgreSQL", "TypeORM", "React"],
     githubStats: { repos: 5, followers: 0 },
   },
 ];
